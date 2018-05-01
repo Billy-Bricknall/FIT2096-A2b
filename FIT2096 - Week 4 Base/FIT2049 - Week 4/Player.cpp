@@ -4,7 +4,7 @@
 
 Player::Player(Vector3 position, InputController* newInput) : GameObject(NULL, NULL, position){
 	m_input = newInput;
-	m_moveSpeed = 5;
+	m_moveSpeed = 3;
 	player1 = new Character("player", 50, 2, 2);
 	posX = 0;
 	posZ = 0;
@@ -31,79 +31,37 @@ void Player::update(float timestep, Tile * gBoard[15][15]){
 	m_rotY = m_heading;
 	m_rotX = m_pitch;
 
-	Vector3 forward; //calculated which tile is infront of the player
-	if (m_rotY < 0.785) {
-		forward = Vector3(0.0f, 0.0f, 1.0f);
-	}
-	else if (m_rotY < 2.355) {
-		forward = Vector3(1.0f, 0.0f, 0.0f);
-	}
-	else if (m_rotY < 3.925) {
-		forward = Vector3(0.0f, 0.0f, -1.0f);
-	}
-	else if(m_rotY < 5.495){
-		forward = Vector3(-1.0f, 0.0f, 0.0f);
-	}
-	else {
-		forward = Vector3(0.0f, 0.0f, 1.0f);
-	}
-	Vector3 right = Vector3(0.0f, 1.0f, 0.0f).Cross(forward); //uses the infront vector and up vector to calculate right
+	Vector3 worldForward = Vector3(0, 0, 1);
 
-	if (!isMoving) {
-		if (m_input->GetKeyUp('W')) {
-			targetPos = Vector3(posX, 0.0f, posZ) + forward;
-			isMoving = true;
-		}
-		else if (m_input->GetKeyUp('A')) {
-			targetPos = Vector3(posX, 0.0f, posZ) - right;
-			isMoving = true;
-		}
-		else if (m_input->GetKeyUp('S')) {
-			targetPos = Vector3(posX, 0.0f, posZ) - forward;
-			isMoving = true;
-		}
-		else if (m_input->GetKeyUp('D')) {
-			targetPos = Vector3(posX, 0.0f, posZ) + right;
-			isMoving = true;
-		}
-		if (targetPos.x < -7 || targetPos.x > 7 || targetPos.z < -7 || targetPos.z > 7 || !gBoard[(int)targetPos.x + 7][(int)targetPos.z + 7]->getActive()) {
-			targetPos = Vector3(posX, 0.0f, posZ); //if target is not possible
-		}
+	Matrix heading = Matrix::CreateRotationY(m_rotY);
+
+	Vector3 localForward = Vector3::TransformNormal(worldForward, heading);
+	Vector3 localRight = Vector3(0, 1, 0).Cross(localForward);
+	
+
+	if (m_input->GetKeyHold('W')) {
+		m_position += localForward * m_moveSpeed * timestep;
+	}
+	else if (m_input->GetKeyHold('S')) {
+		m_position -= localForward * m_moveSpeed * timestep;
+	}
+	if (m_input->GetKeyHold('D')) {
+		m_position += localRight * m_moveSpeed * timestep;
+	}
+	else if (m_input->GetKeyHold('A')) {
+		m_position -= localRight * m_moveSpeed * timestep;
 	}
 
-	Vector3 diff = targetPos - m_position; //gets vector to move
-	diff.Normalize();
-	if (Vector3::DistanceSquared(targetPos, m_position) > 0.001)
-		m_position +=  diff  * m_moveSpeed * timestep;
-	else{
-		isMoving = false;
-		posX = nearbyint(m_position.x); //stops posX from being incorrect and allows tiles at posX to be activated only when Player is actually there
-		posZ = nearbyint(m_position.z);
-		targetPos = Vector3(posX, 0.0f, posZ); //helps stop target innacuracy from floats
+	
+	
+	
+	posX = nearbyint(m_position.x); //stops posX from being incorrect and allows tiles at posX to be activated only when Player is actually there
+	posZ = nearbyint(m_position.z);
 
-		if (gBoard[posX + 7][posZ + 7]->getType() != "blank" && gBoard[posX + 7][posZ + 7]->getActive() == true) //if further action is required
-			actionTile(gBoard); //performs all special tiles traits
+	if (gBoard[posX + 7][posZ + 7]->getType() != "blank" && gBoard[posX + 7][posZ + 7]->getActive() == true) //if further action is required
+		actionTile(gBoard); //performs all special tiles traits
 
-		gBoard[posX + 7][posZ + 7]->deactivate(); //deactivates current tile
-
-		bool left, Right, up, down; //following checks if player is trapped
-		left = Right = up = down = true;
-		if (posX + 6 < 0 || !gBoard[posX + 6][posZ + 7]->getActive()) {
-			left = false;
-		}
-		if (posX + 8 > 14 || !gBoard[posX + 8][posZ + 7]->getActive()) {
-			Right = false;
-		}
-		if (posZ + 6 < 0 || !gBoard[posX + 7][posZ + 6]->getActive()) {
-			up = false;
-		}
-		if (posZ + 8 > 14 || !gBoard[posX + 7][posZ + 8]->getActive()) {
-			down = false;
-		}
-		if (!left && !Right && !up && !down) { //if surrounding tiles cant be moved to
-			gState->changeGameLose();
-		}
-	}
+	SetUniformScale(MathsHelper::RemapRange(player1->getHealth(), 0.0f, player1->getMaxHealth(), 0.02f, 0.1f)); // sets player scale relevent to player health
 }
 
 Vector3 Player::getPosition(){
@@ -116,31 +74,11 @@ GameState * Player::getGamestate(){
 
 void Player::actionTile(Tile* gBoard[15][15]){
 	if (gBoard[posX + 7][posZ + 7]->getType() == "tele") { //if tile is teleport
-		gBoard[posX + 7][posZ + 7]->deactivate(); //deactivate tile early as next deactivation will do tile teleported to
+		gBoard[posX + 7][posZ + 7]->setType("blank"); //deactivate tile early as next deactivation will do tile teleported to
 		int tempX = posX; //needed for getting new posY 2 lines down
 		posX = gBoard[posX + 7][posZ + 7]->getLink()->getPosX();
 		posZ = gBoard[tempX + 7][posZ + 7]->getLink()->getPosY();
 		m_position = Vector3(posX, 0.0f, posZ); // sets new position
-		targetPos = m_position; //resets target
-		movementCue.erase(movementCue.begin(), movementCue.end()); //erases movement cue as player may change mind after teleport
+		gBoard[posX + 7][posZ + 7]->setType("blank");
 	}
-	else if (gBoard[posX + 7][posZ + 7]->getType() == "heal") {//if tile is heal
-		player1->changeHealth(10); //heals player
-	}
-	else if (gBoard[posX + 7][posZ + 7]->getType() == "mon") {//if tile is monster
-		do {
-			player1->battle(gBoard[posX + 7][posZ + 7]->getEnemy()); //player attacks mon
-			if (gBoard[posX + 7][posZ + 7]->getEnemy()->getHealth() > 0) { //if mon alive after attack
-				gBoard[posX + 7][posZ + 7]->getEnemy()->battle(player1); } //mon attacks player
-		} while (player1->getHealth() > 0 && gBoard[posX + 7][posZ + 7]->getEnemy()->getHealth() > 0); //while player or mon are awake
-		if (player1->getHealth() > 0) { //if player won
-			gState->addMonDef(gBoard[posX + 7][posZ + 7]->getEnemy()); //add mon to defeated list
-			player1->levelUp(); //level up player
-		}
-		else {
-			gState->changeGameLose(); //otherwise game is lost
-		}
-		
-	}
-	SetUniformScale(MathsHelper::RemapRange(player1->getHealth(), 0.0f, player1->getMaxHealth(), 0.02f, 0.1f)); // sets player scale relevent to player health
 }

@@ -64,10 +64,7 @@ Bullet * Tile::getBullet(){
 }
 
 void Tile::update(float timestep, TextureManager* textureManager, MeshManager* meshManager, Vector3 pos) { //changes textures depending on types and if active
-	if(!isActive){
-		m_texture = textureManager->GetTexture("Assets/Textures/tile_disabled.png");
-	}
-	else if (type == "heal") {
+	if (type == "heal") {
 		m_texture = textureManager->GetTexture("Assets/Textures/tile_green.png");
 		charMesh = new GameObject(meshManager->GetMesh("Assets/Meshes/player_capsule.obj"), m_shader, m_position + Vector3(0.5f, 0.2f, 0.0f), textureManager->GetTexture("Assets/Textures/tile_green.png")); //creates 3d sprite
 		charMesh->SetZRotation(1.57); //rotation capsule to side
@@ -82,6 +79,9 @@ void Tile::update(float timestep, TextureManager* textureManager, MeshManager* m
 	}
 	else if (type == "tele") {
 		m_texture = textureManager->GetTexture("Assets/Textures/tile_blue.png");
+	}
+	else {
+		m_texture = textureManager->GetTexture("Assets/Textures/tile_white.png");
 	}
 
 	if (charMesh != NULL && type == "mon") {

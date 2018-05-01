@@ -252,7 +252,6 @@ void Game::Shutdown()
 }
 
 void Game::generateBoard() {
-	int numToDeactivate = 24; //number of tiles to deactivate
 	int numToLink = 2; //number of tiles to link (1 makes a link between 2 tiles)
 	int monNum = 5; //number of monsters
 	int healNum = 6; //number of heal tiles
@@ -290,11 +289,7 @@ void Game::generateBoard() {
 			y = rand() % 15;
 		} while (m_board[x][y]->getActive() == false || m_board[x][y]->getType() != "blank" || (x == 7 && y == 7)); // if tile hasnt been selected yet
 		
-		if (numToDeactivate > 0) {
-			m_board[x][y]->deactivate(); //deactivates tile
-			numToDeactivate--;
-		}
-		else if (numToLink > 0) {
+		if (numToLink > 0) {
 			int linkX, linkY;
 			m_board[x][y]->setType("tele"); //sets type
 
@@ -324,5 +319,5 @@ void Game::generateBoard() {
 			m_board[x][y]->setType("heal"); //sets type
 			healNum--;
 		}
-	} while (numToDeactivate > 0 || numToLink > 0 || monNum > 0 || healNum > 0);
+	} while (numToLink > 0 || monNum > 0 || healNum > 0);
 }
