@@ -6,6 +6,7 @@
 #include "MeshManager.h"
 #include "Character.h"
 #include "Bullet.h"
+#include "GameConstants.h"
 
 using namespace std;
 
@@ -19,10 +20,11 @@ private:
 	Character* enemy; //stores enemy stats and battle logic for monster tiles
 	Bullet* b1;
 	GameObject* charMesh;
+	GameConstants* m_gConsts;
 	int timer;
 
 public:
-	Tile(int newPosX, int newPosY, Mesh* mesh, Shader* shader, Vector3 position, Texture* texture);
+	Tile(int newPosX, int newPosY, Mesh* mesh, Shader* shader, Vector3 position, Texture* texture, GameConstants* newGConsts);
 	~Tile();
 
 	//accessors
@@ -42,6 +44,12 @@ public:
 	void setType(string newType); // sets type of tile
 
 	void update(float timestep, TextureManager* textureManager, MeshManager* meshManager, Vector3 pos); //changes texture depending on type
+
+	void enemyMovement1();
+	void enemyMovement2();
+	void enemyMovement3();
+	void enemyMovement4();
+	void enemyMovement5();
 
 };
 #endif

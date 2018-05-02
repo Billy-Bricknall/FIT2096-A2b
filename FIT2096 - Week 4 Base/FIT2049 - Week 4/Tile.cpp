@@ -1,11 +1,12 @@
 #include "Tile.h"
 
-Tile::Tile(int newPosX, int newPosY, Mesh* mesh, Shader* shader, Vector3 position, Texture* texture) : GameObject(mesh, shader, position, texture){
+Tile::Tile(int newPosX, int newPosY, Mesh* mesh, Shader* shader, Vector3 position, Texture* texture, GameConstants* newGConsts) : GameObject(mesh, shader, position, texture){
 	positionX = newPosX;
 	positionY = newPosY;
 	isActive = true;
 	type = "blank"; //blank means tile doesnt have an action
 	charMesh = NULL;
+	m_gConsts = newGConsts;
 }
 
 Tile::~Tile(){
@@ -70,11 +71,11 @@ void Tile::update(float timestep, TextureManager* textureManager, MeshManager* m
 		charMesh->SetZRotation(1.57); //rotation capsule to side
 	}
 	else if (type == "mon") {
-		if (enemy->getMaxHealth() == 50) { m_texture = textureManager->GetTexture("Assets/Textures/tile_red1.png"); }
+		/*if (enemy->getMaxHealth() == 50) { m_texture = textureManager->GetTexture("Assets/Textures/tile_red1.png"); }
 		else if (enemy->getMaxHealth() == 40) { m_texture = textureManager->GetTexture("Assets/Textures/tile_orange1.png"); }
 		else if (enemy->getMaxHealth() == 30) { m_texture = textureManager->GetTexture("Assets/Textures/tile_orange.png"); }
 		else if (enemy->getMaxHealth() == 20) { m_texture = textureManager->GetTexture("Assets/Textures/tile_red.png"); }
-		else { m_texture = textureManager->GetTexture("Assets/Textures/tile_red_light.png"); }
+		else { m_texture = textureManager->GetTexture("Assets/Textures/tile_red_light.png"); }*/
 		charMesh = new GameObject(meshManager->GetMesh("Assets/Meshes/enemy.obj"), m_shader, m_position, textureManager->GetTexture("Assets/Textures/gradient_redDarker.png")); //creates 3d sprite
 	}
 	else if (type == "tele") {
@@ -93,15 +94,19 @@ void Tile::update(float timestep, TextureManager* textureManager, MeshManager* m
 		charMesh->SetYRotation(angle); //makes enemies look at player
 
 		charMesh->SetUniformScale(enemy->getHealth()/50.0f); //makes weaker enemies smaller
-		Vector3 gunPos = Vector3(-0.133*enemy->getHealth() / 50.0f, 1.2*enemy->getHealth() / 50.0f, 0.137*enemy->getHealth() / 50.0f); //calculates gun position based on size
+		Vector3 gunPos = Vector3(m_gConsts->getGunOffsetX()*enemy->getHealth() / 50.0f, m_gConsts->getGunOffsetY()*enemy->getHealth() / 50.0f, m_gConsts->getGunOffsetZ()*enemy->getHealth() / 50.0f); //calculates gun position based on size
 		gunPos = Vector3(m_position.x, m_position.y, m_position.z) + Vector3::TransformNormal(gunPos, Matrix::CreateRotationY(charMesh->GetYRotation())); //rotates gun position base on rotation and calculates exact position
 
-		if (timer % 500 == 0) {
+		if (timer % m_gConsts->getShotTimer() == 0) {
 			if(b1)
 				delete b1;
 			b1 = new Bullet(meshManager->GetMesh("Assets/Meshes/bullet.obj"), m_shader, gunPos, textureManager->GetTexture("Assets/Textures/bullet.png"), charMesh->GetYRotation()); //creates bullet
 		}
 		timer++;
+
+
+
+
 		charMesh->Update(timestep);
 		b1->update(timestep);
 	}

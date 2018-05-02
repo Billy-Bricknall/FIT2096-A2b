@@ -4,14 +4,14 @@
 
 Player::Player(Vector3 position, InputController* newInput, GameConstants* newGConsts) : GameObject(NULL, NULL, position){
 	m_input = newInput;
-	m_moveSpeed = 3;
-	player1 = new Character("player", 50, 2, 2);
+	m_moveSpeed = newGConsts->getMoveSpeed();
+	player1 = new Character("player", 50);
 	posX = 0;
 	posZ = 0;
 	gState = new GameState();
 	m_heading = 0.0f;
 	m_pitch = 0.0f;
-	m_rotateSpeed = 1.0f;
+	m_rotateSpeed = 0.5f;
 	isMoving = false;
 	m_gConsts = newGConsts;
 }
@@ -60,7 +60,7 @@ void Player::update(float timestep, Tile * gBoard[15][15], TextureManager* textu
 
 	for (int i = 0; i < bullets.size(); i++) {
 		bullets[i]->update(timestep);
-		if (bullets[i]->getDistanceTravelled() > 10.0f) {
+		if (bullets[i]->getDistanceTravelled() > m_gConsts->getBTime()) {
 			bullets.erase(bullets.begin());
 			i--;
 		}
@@ -87,8 +87,7 @@ GameState * Player::getGamestate(){
 }
 
 void Player::shoot(TextureManager* textureManager, MeshManager* meshManager, Shader* shader){
-	//Mesh* mesh, Shader* shader, Vector3 position, Texture* texture, float rotation
-	Vector3 bulletStart = Vector3(0, 0.6, 0) + m_position;
+	Vector3 bulletStart = Vector3(0, m_gConsts->getCamHeight(), 0) + m_position;
 	Bullet* b1 = new Bullet(meshManager->GetMesh("Assets/Meshes/bullet.obj"), shader, bulletStart, textureManager->GetTexture("Assets/Textures/bullet.png"), m_rotY, m_rotX);
 	bullets.push_back(b1);
 }

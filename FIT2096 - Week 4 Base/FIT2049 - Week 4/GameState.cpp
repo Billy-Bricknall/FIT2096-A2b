@@ -31,9 +31,7 @@ void GameState::changeGameLose(){
 void GameState::addMonDef(Character * monDef){
 	std::stringstream ss;
 	ss << "Monster name: " << monDef->getName() << "\n";
-	ss << monDef->getName() << "'s Health: " << monDef->getHealth() << "/" << monDef->getMaxHealth() << "\n";
-	ss << monDef->getName() << "'s Attack: " << monDef->getAttack() << "\n";
-	ss << monDef->getName() << "'s Defense: " << monDef->getDefense() << "\n" << "\n";
+	ss << monDef->getName() << "'s Health: " << monDef->getHealth() << "/" << monDef->getMaxHealth() << "\n" << "\n";
 	monstersDef = monstersDef + ss.str();
 	totalDef++;
 	if (totalDef == 5) { gameWin = true; } //game is won if all 5 mons are defeated

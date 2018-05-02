@@ -1,5 +1,5 @@
 #include "Bullet.h"
-#include <iostream>
+
 Bullet::Bullet(Mesh* mesh, Shader* shader, Vector3 position, Texture* texture, float rotation) : GameObject(mesh, shader, position, texture) {
 	trajectory = Vector3(0, 0, 1); //holds local forward for 1 calculation
 	trajectory = Vector3::TransformNormal(trajectory, Matrix::CreateRotationY(rotation)); //calculates bullet trajectory based on rotation

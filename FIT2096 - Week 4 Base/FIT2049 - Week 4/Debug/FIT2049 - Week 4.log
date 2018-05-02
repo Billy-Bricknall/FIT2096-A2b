@@ -1,4 +1,8 @@
 ﻿  Player.cpp
+h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(16): warning C4305: 'initializing': truncation from 'double' to 'const float'
+h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(19): warning C4305: 'initializing': truncation from 'double' to 'const float'
+h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(20): warning C4305: 'initializing': truncation from 'double' to 'const float'
+h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
 h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(30): warning C4305: 'argument': truncation from 'double' to 'float'
 h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(32): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
@@ -6,7 +10,6 @@ h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\play
 h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(69): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(70): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(78): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(91): warning C4305: 'argument': truncation from 'double' to 'float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(109): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(108): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   FIT2049 - Week 4.vcxproj -> H:\Documents\Uni\FIT2096\FIT2096 A2b\FIT2096 - Week 4 Base\Debug\FIT2096 - Week 4 Base.exe
   FIT2049 - Week 4.vcxproj -> H:\Documents\Uni\FIT2096\FIT2096 A2b\FIT2096 - Week 4 Base\Debug\FIT2096 - Week 4 Base.pdb (Full PDB)

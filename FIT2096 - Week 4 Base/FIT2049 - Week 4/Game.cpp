@@ -285,7 +285,7 @@ void Game::generateBoard() {
 
 	for (int i = -(width - 1) / 2; i < (width + 1) / 2; i++) {
 		for (int j = -(height - 1) / 2; j < (height + 1) / 2; j++) { //following creates blank slate
-			m_board[i+(width-1)/2][j+(height-1)/2] = new Tile(i, j, m_meshManager->GetMesh("Assets/Meshes/floor_tile.obj"), m_unlitTexturedShader, Vector3(i, 0, j), m_textureManager->GetTexture("Assets/Textures/tile_white.png")); //string can be blank, mon1-5, tele, heal
+			m_board[i+(width-1)/2][j+(height-1)/2] = new Tile(i, j, m_meshManager->GetMesh("Assets/Meshes/floor_tile.obj"), m_unlitTexturedShader, Vector3(i, 0, j), m_textureManager->GetTexture("Assets/Textures/tile_white.png"), m_gConsts); //string can be blank, mon1-5, tele, heal
 		}
 	}
 
@@ -312,11 +312,11 @@ void Game::generateBoard() {
 		else if (monNum > 0) {
 			Character* tempMon;
 			m_board[x][y]->setType("mon"); //sets type
-			if (monNum == 1) { tempMon = new Character("mon1", 10, 1, 1); } //makes first mon
-			 else if (monNum == 2) { tempMon = new Character("mon2", 20, 3, 3); }
-			 else if (monNum == 3) { tempMon = new Character("mon3", 30, 5, 4); }
-			 else if (monNum == 4) { tempMon = new Character("mon4", 40, 4, 8); }
-			 else if (monNum == 5) { tempMon = new Character("mon5", 50, 7, 6); }
+			if (monNum == 1) { tempMon = new Character("mon1", 10); } //makes first mon
+			 else if (monNum == 2) { tempMon = new Character("mon2", 20); }
+			 else if (monNum == 3) { tempMon = new Character("mon3", 30); }
+			 else if (monNum == 4) { tempMon = new Character("mon4", 40); }
+			 else if (monNum == 5) { tempMon = new Character("mon5", 50); }
 			 else { tempMon = NULL; }
 			m_board[x][y]->setEnemy(tempMon);
 			monNum--;

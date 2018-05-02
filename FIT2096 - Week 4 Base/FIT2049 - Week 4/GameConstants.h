@@ -9,6 +9,17 @@ private:
 	const int MON_NUM = 5;
 	const int HEAL_NUM = 5;
 	const int TELE_NUM = 2;
+	
+	//Player.cpp
+	const float BULLET_TIMEOUT = 10;
+	const float MOVE_SPEED = 2.5;
+	const float CAMERA_HEIGHT = 0.6;
+
+	//Tile.cpp
+	const float GUN_OFFSET_X = -0.133;
+	const float GUN_OFFSET_Y = 1.2;
+	const float GUN_OFFSET_Z = 0.137;
+	const int SHOT_TIMER = 400;
 
 
 public:
@@ -18,5 +29,12 @@ public:
 	int getMonNum() { return MON_NUM; }
 	int getHealNum() { return HEAL_NUM; }
 	int getTeleNum() { return TELE_NUM; }
+	float getBTime() { return BULLET_TIMEOUT; }
+	float getMoveSpeed() { return MOVE_SPEED; }
+	float getCamHeight() { return CAMERA_HEIGHT; }
+	float getGunOffsetX() { return GUN_OFFSET_X; }
+	float getGunOffsetY() { return GUN_OFFSET_Y; }
+	float getGunOffsetZ() { return GUN_OFFSET_Z; }
+	int getShotTimer() { return SHOT_TIMER; }
 };
 #endif
