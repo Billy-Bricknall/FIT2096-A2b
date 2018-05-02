@@ -2,6 +2,7 @@
 #define CHARACTER_H
 
 #include <string>
+#include "GameConstants.h"
 
 class Character { //generic character class for monsters and players stats
 

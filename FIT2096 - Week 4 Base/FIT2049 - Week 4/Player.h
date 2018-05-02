@@ -3,18 +3,23 @@
 
 #include "Tile.h"
 #include "MeshManager.h"
+#include "TextureManager.h"
 #include "GameState.h"
+#include "Bullet.h"
 #include <vector>
 
 class Player: public GameObject{
 
 public:
-	Player(Vector3 position, InputController* newInput);
+	Player(Vector3 position, InputController* newInput, GameConstants* newGConsts);
 	~Player();
-	void update(float timestep, Tile* gBoard[15][15]);
+	void update(float timestep, Tile* gBoard[15][15], TextureManager* textureManager, MeshManager* meshManager, Shader* shader);
 	Vector3 getPosition();
 	GameState* getGamestate(); //returns current gamestate
 	Character* getCharacter() { return player1; }
+	void shoot(TextureManager* textureManager, MeshManager* meshManager, Shader* shader);
+	vector<Bullet*> getBullet();
+
 
 private:
 	InputController * m_input;
@@ -25,7 +30,10 @@ private:
 	Character* player1; //holds and controls players stats/battles
 	vector<int> movementCue; // holds all valid keystrokes
 	GameState* gState; //holds the current games state.
+	GameConstants* m_gConsts;
+	vector<Bullet*> bullets;
 	bool isMoving;
+	
 
 	float m_heading;
 	float m_pitch;

@@ -1,7 +1,6 @@
 #include "FirstPersonCamera.h"
 
 
-
 FirstPersonCamera::FirstPersonCamera(){
 	m_objectAtCamera = NULL;
 }
@@ -23,7 +22,7 @@ void FirstPersonCamera::Update(float timestep){
 		Matrix xRotation = Matrix::CreateRotationX(m_objectAtCamera->GetXRotation());
 		Vector3 localForward = Vector3(0, 0, 1);
 		Vector3 lookAt = Vector3::TransformNormal(localForward, xRotation * yRotation);
-		lookAt += m_objectAtCamera->GetPosition();
+		lookAt += m_objectAtCamera->GetPosition() + m_offset;
 
 		SetLookAt(lookAt);
 	}

@@ -28,6 +28,7 @@ bool Game::Initialise(Direct3D* renderer, InputController* input)
 	m_input = input;
 	m_meshManager = new MeshManager();
 	m_textureManager = new TextureManager();
+	m_gConsts = new GameConstants();
 
 
 	if (!InitShaders())
@@ -143,19 +144,19 @@ void Game::RefreshUI()
 void Game::InitGameWorld()
 {
 	generateBoard(); //randomly generates a gameboard
-	p1 = new Player(Vector3(0.0f, 0.0f, 0.0f), m_input);
+	p1 = new Player(Vector3(0.0f, 0.0f, 0.0f), m_input, m_gConsts);
 }
 
 void Game::Update(float timestep){
 	m_input->BeginUpdate();
 
 	if (!p1->getGamestate()->getGameLose() && !p1->getGamestate()->getGamewin()) { //if game isnt over
-		for (int i = 0; i < 15; i++) {
-			for (int j = 0; j < 15; j++) {
+		for (int i = 0; i < m_gConsts->getBoardWidth(); i++) {
+			for (int j = 0; j < m_gConsts->getBoardHeight(); j++) {
 				m_board[i][j]->update(timestep, m_textureManager, m_meshManager, p1->GetPosition()); //update all tiles
 			}
 		}
-		p1->update(timestep, m_board); //update player
+		p1->update(timestep, m_board, m_textureManager, m_meshManager, m_unlitTexturedShader); //update player
 	}
 	else {
 		MessageBox(NULL, p1->getGamestate()->getMonDef().c_str(), "GameOver", MB_OK); //gameover box with all mons defeated
@@ -174,8 +175,8 @@ void Game::Render()
 	m_renderer->BeginScene(0.2f, 0.2f, 0.2f, 1.0f);
 
 	// TODO render all gameobjects
-	for (int i = 0; i < 15; i++) {
-		for (int j = 0; j < 15; j++) {
+	for (int i = 0; i < m_gConsts->getBoardWidth(); i++) {
+		for (int j = 0; j < m_gConsts->getBoardHeight(); j++) {
 			m_board[i][j]->Render(m_renderer, m_currentCam); //renders board
 			if (m_board[i][j]->getCharMesh()) {
 				m_board[i][j]->getCharMesh()->Render(m_renderer, m_currentCam); //renders character meshes
@@ -185,8 +186,11 @@ void Game::Render()
 			}
 		}
 	}
-	for (int i = 0; i < 64; i++) {
+	for (int i = 0; i < (m_gConsts->getBoardWidth()+1)/2 * (m_gConsts->getBoardHeight()+1)/2; i++) {
 		m_wall[i]->Render(m_renderer, m_currentCam); //renders walls
+	}
+	for (int i = 0; i < p1->getBullet().size(); i++) {
+		p1->getBullet()[i]->Render(m_renderer, m_currentCam);
 	}
 	DrawUI();
 	m_renderer->EndScene();		
@@ -252,51 +256,53 @@ void Game::Shutdown()
 }
 
 void Game::generateBoard() {
-	int numToLink = 2; //number of tiles to link (1 makes a link between 2 tiles)
-	int monNum = 5; //number of monsters
-	int healNum = 6; //number of heal tiles
+	int numToLink = m_gConsts->getTeleNum(); //number of tiles to link (1 makes a link between 2 tiles)
+	int monNum = m_gConsts->getMonNum(); //number of monsters
+	int healNum = m_gConsts->getHealNum(); //number of heal tiles
+	int height = m_gConsts->getBoardHeight();
+	int width = m_gConsts->getBoardWidth();
 	int x;
 	int y;
 
 	int temp = 0;
-	for (int i = -8; i < 9; i++) { //from here...
-		m_wall[temp] = new GameObject(m_meshManager->GetMesh("Assets/Meshes/wall_tile.obj"), m_unlitTexturedShader, Vector3(i, 0, -8), m_textureManager->GetTexture("Assets/Textures/ground.png"));
+	for (int i = -(width+1)/2; i < 1+(width+1)/2; i++) { //from here...
+		m_wall[temp] = new GameObject(m_meshManager->GetMesh("Assets/Meshes/wall_tile.obj"), m_unlitTexturedShader, Vector3(i, 0, -(width + 1) / 2), m_textureManager->GetTexture("Assets/Textures/ground.png"));
 		m_wall[temp]->Update(NULL);
 		temp++;
-		m_wall[temp] = new GameObject(m_meshManager->GetMesh("Assets/Meshes/wall_tile.obj"), m_unlitTexturedShader, Vector3(i, 0, 8), m_textureManager->GetTexture("Assets/Textures/ground.png"));
+		m_wall[temp] = new GameObject(m_meshManager->GetMesh("Assets/Meshes/wall_tile.obj"), m_unlitTexturedShader, Vector3(i, 0, (width + 1) / 2), m_textureManager->GetTexture("Assets/Textures/ground.png"));
 		m_wall[temp]->Update(NULL);
 		temp++;
 	}
-	for (int i = -7; i < 8; i++) {
-		m_wall[temp] = new GameObject(m_meshManager->GetMesh("Assets/Meshes/wall_tile.obj"), m_unlitTexturedShader, Vector3(-8, 0, i), m_textureManager->GetTexture("Assets/Textures/ground.png"));
+	for (int i = -(height-1)/2; i < (height + 1) / 2; i++) {
+		m_wall[temp] = new GameObject(m_meshManager->GetMesh("Assets/Meshes/wall_tile.obj"), m_unlitTexturedShader, Vector3(-(height + 1) / 2, 0, i), m_textureManager->GetTexture("Assets/Textures/ground.png"));
 		m_wall[temp]->Update(NULL);
 		temp++;
-		m_wall[temp] = new GameObject(m_meshManager->GetMesh("Assets/Meshes/wall_tile.obj"), m_unlitTexturedShader, Vector3(8, 0, i), m_textureManager->GetTexture("Assets/Textures/ground.png"));
+		m_wall[temp] = new GameObject(m_meshManager->GetMesh("Assets/Meshes/wall_tile.obj"), m_unlitTexturedShader, Vector3((height + 1) / 2, 0, i), m_textureManager->GetTexture("Assets/Textures/ground.png"));
 		m_wall[temp]->Update(NULL);
 		temp++;
 	} //...to here spawns walls
 
 
-	for (int i = -7; i < 8; i++) {
-		for (int j = -7; j < 8; j++) { //following creates blank slate
-			m_board[i+7][j+7] = new Tile(i, j, m_meshManager->GetMesh("Assets/Meshes/floor_tile.obj"), m_unlitTexturedShader, Vector3(i, 0, j), m_textureManager->GetTexture("Assets/Textures/tile_white.png")); //string can be blank, mon1-5, tele, heal
+	for (int i = -(width - 1) / 2; i < (width + 1) / 2; i++) {
+		for (int j = -(height - 1) / 2; j < (height + 1) / 2; j++) { //following creates blank slate
+			m_board[i+(width-1)/2][j+(height-1)/2] = new Tile(i, j, m_meshManager->GetMesh("Assets/Meshes/floor_tile.obj"), m_unlitTexturedShader, Vector3(i, 0, j), m_textureManager->GetTexture("Assets/Textures/tile_white.png")); //string can be blank, mon1-5, tele, heal
 		}
 	}
 
 	do { // the rest randomly generates which tiles are where
 		do {
-			x = rand() % 15;
-			y = rand() % 15;
-		} while (m_board[x][y]->getActive() == false || m_board[x][y]->getType() != "blank" || (x == 7 && y == 7)); // if tile hasnt been selected yet
+			x = rand() % width;
+			y = rand() % height;
+		} while (m_board[x][y]->getActive() == false || m_board[x][y]->getType() != "blank" || (x == (width-1)/2 && y == (height-1)/2)); // if tile hasnt been selected yet
 		
 		if (numToLink > 0) {
 			int linkX, linkY;
 			m_board[x][y]->setType("tele"); //sets type
 
 			do {
-				linkX = rand() % 15;
-				linkY = rand() % 15;
-			} while (m_board[linkX][linkY]->getActive() == false || m_board[linkX][linkY]->getType() != "blank" || (x == 7 && y == 7)); //if tile hasnt been selected yet
+				linkX = rand() % width;
+				linkY = rand() % height;
+			} while (m_board[linkX][linkY]->getActive() == false || m_board[linkX][linkY]->getType() != "blank" || (x == (width - 1) / 2 && y == (width - 1) / 2)); //if tile hasnt been selected yet
 			m_board[linkX][linkY]->setType("tele"); //sets type
 
 			m_board[linkX][linkY]->linkTile(m_board[x][y]); //links tile

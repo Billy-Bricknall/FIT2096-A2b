@@ -33,6 +33,7 @@ private:
 	Player* p1; //pointer to player object
 	Tile* m_board[15][15]; //pointer to 2d array for tiles
 	GameObject* m_wall[64]; // pointer to array for walls
+	GameConstants* m_gConsts;
 
 	std::wstring m_monsDefeated;
 

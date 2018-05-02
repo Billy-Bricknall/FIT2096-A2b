@@ -71,6 +71,7 @@
     <ClCompile Include="Direct3D.cpp" />
     <ClCompile Include="FirstPersonCamera.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameConstants.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="InputController.cpp" />
@@ -97,6 +98,7 @@
     <ClInclude Include="DirectXTK\WICTextureLoader.h" />
     <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameConstants.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="InputController.h" />
