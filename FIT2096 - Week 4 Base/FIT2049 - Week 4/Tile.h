@@ -17,11 +17,15 @@ private:
 	Tile* linkingTile; //tile that is linked for teleporting
 	int positionX; //x position of tile
 	int positionY; //y position of tile
+	GameConstants* m_gConsts;
+	//below only for enemies
 	Character* enemy; //stores enemy stats and battle logic for monster tiles
 	Bullet* b1;
 	GameObject* charMesh;
-	GameConstants* m_gConsts;
+	int charType;
 	int timer;
+	int shotSpeed;
+
 
 public:
 	Tile(int newPosX, int newPosY, Mesh* mesh, Shader* shader, Vector3 position, Texture* texture, GameConstants* newGConsts);
@@ -33,6 +37,7 @@ public:
 	bool getActive();
 	string getType();
 	Tile* getLink();
+	//below only for enemies
 	Character* getEnemy();
 	GameObject* getCharMesh();
 	Bullet* getBullet();
@@ -40,16 +45,17 @@ public:
 	//mutators
 	void deactivate(); //deactivates the tile
 	void linkTile(Tile* newLink); //links 2 tiles
+	void setType(string newType, MeshManager* meshManager, TextureManager* textureManager); // sets type of tile
+	//below only for enemies
 	void setEnemy(Character* newEnemy); //sets and enemy to a tile
-	void setType(string newType); // sets type of tile
+	static int charSelect;
+
+	void enemyMovement1(float timestep);
+	void enemyMovement2(float timestep);
+	void enemyMovement3(float timestep);
+	void enemyMovement4(float timestep);
+	void enemyMovement5(float timestep);
 
 	void update(float timestep, TextureManager* textureManager, MeshManager* meshManager, Vector3 pos); //changes texture depending on type
-
-	void enemyMovement1();
-	void enemyMovement2();
-	void enemyMovement3();
-	void enemyMovement4();
-	void enemyMovement5();
-
 };
 #endif

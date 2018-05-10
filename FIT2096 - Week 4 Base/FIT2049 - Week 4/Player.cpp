@@ -101,11 +101,11 @@ void Player::actionTile(Tile* gBoard[15][15]){
 	int halfHeight = (m_gConsts->getBoardHeight() - 1) / 2;
 
 	if (gBoard[posX + halfWidth][posZ + halfHeight]->getType() == "tele") { //if tile is teleport
-		gBoard[posX + halfWidth][posZ + halfHeight]->setType("blank"); //deactivate tile early as next deactivation will do tile teleported to
+		gBoard[posX + halfWidth][posZ + halfHeight]->setType("blank", NULL, NULL); //deactivate tile early as next deactivation will do tile teleported to
 		int tempX = posX; //needed for getting new posY 2 lines down
 		posX = gBoard[posX + halfWidth][posZ + halfHeight]->getLink()->getPosX();
 		posZ = gBoard[tempX + halfWidth][posZ + halfHeight]->getLink()->getPosY();
 		m_position = Vector3(posX, 0.0f, posZ); // sets new position
-		gBoard[posX + halfWidth][posZ + halfHeight]->setType("blank");
+		gBoard[posX + halfWidth][posZ + halfHeight]->setType("blank", NULL, NULL);
 	}
 }

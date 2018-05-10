@@ -297,13 +297,13 @@ void Game::generateBoard() {
 		
 		if (numToLink > 0) {
 			int linkX, linkY;
-			m_board[x][y]->setType("tele"); //sets type
+			m_board[x][y]->setType("tele", NULL, NULL); //sets type
 
 			do {
 				linkX = rand() % width;
 				linkY = rand() % height;
 			} while (m_board[linkX][linkY]->getActive() == false || m_board[linkX][linkY]->getType() != "blank" || (x == (width - 1) / 2 && y == (width - 1) / 2)); //if tile hasnt been selected yet
-			m_board[linkX][linkY]->setType("tele"); //sets type
+			m_board[linkX][linkY]->setType("tele", NULL, NULL); //sets type
 
 			m_board[linkX][linkY]->linkTile(m_board[x][y]); //links tile
 			m_board[x][y]->linkTile(m_board[linkX][linkY]); //links tile
@@ -311,7 +311,7 @@ void Game::generateBoard() {
 		}
 		else if (monNum > 0) {
 			Character* tempMon;
-			m_board[x][y]->setType("mon"); //sets type
+			m_board[x][y]->setType("mon", m_meshManager, m_textureManager); //sets type
 			if (monNum == 1) { tempMon = new Character("mon1", 10); } //makes first mon
 			 else if (monNum == 2) { tempMon = new Character("mon2", 20); }
 			 else if (monNum == 3) { tempMon = new Character("mon3", 30); }
@@ -322,7 +322,7 @@ void Game::generateBoard() {
 			monNum--;
 		}
 		else if (healNum > 0) {
-			m_board[x][y]->setType("heal"); //sets type
+			m_board[x][y]->setType("heal", m_meshManager, m_textureManager); //sets type
 			healNum--;
 		}
 	} while (numToLink > 0 || monNum > 0 || healNum > 0);
