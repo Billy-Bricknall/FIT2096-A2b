@@ -153,7 +153,7 @@ void Game::Update(float timestep){
 	if (!p1->getGamestate()->getGameLose() && !p1->getGamestate()->getGamewin()) { //if game isnt over
 		for (int i = 0; i < m_gConsts->getBoardWidth(); i++) {
 			for (int j = 0; j < m_gConsts->getBoardHeight(); j++) {
-				m_board[i][j]->update(timestep, m_textureManager, m_meshManager, p1->GetPosition()); //update all tiles
+				m_board[i][j]->update(timestep, m_meshManager, p1->GetPosition()); //update all tiles
 			}
 		}
 		p1->update(timestep, m_board, m_textureManager, m_meshManager, m_unlitTexturedShader); //update player
@@ -204,9 +204,10 @@ void Game::DrawUI()
 	CommonStates states(m_renderer->GetDevice());
 	m_spriteBatch->Begin(SpriteSortMode_Deferred, states.NonPremultiplied());
 
-	std::wstringstream ss;
-	ss << "|";
-	wstring temp = ss.str();
+	std::wstringstream ss1;
+	ss1 << "+";
+	wstring temp1 = ss1.str();
+	m_arialFont12->DrawString(m_spriteBatch, temp1.c_str(), Vector2(634, 350), Color(0.0f, 0.0f, 0.0f), 0, Vector2(0, 0));//draws a line at the midpoint of the health bar
 
 	m_arialFont12->DrawString(m_spriteBatch, m_monsDefeated.c_str(), Vector2(0, 100), Color(0.0f, 0.0f, 0.0f), 0, Vector2(0, 0)); //draws the score as in monsters defeated
 
@@ -218,7 +219,12 @@ void Game::DrawUI()
 		m_spriteBatch->Draw(m_healthBar1->GetShaderResourceView(), Vector2(639 + 3.18 * i, 5), Color(1.0f, 0.0f, 0.0f));//draws current health level
 		m_spriteBatch->Draw(m_healthBar1->GetShaderResourceView(), Vector2(635 - 3.18 * i, 5), Color(1.0f, 0.0f, 0.0f));
 	}
+	
+	std::wstringstream ss;
+	ss << "|";
+	wstring temp = ss.str();
 	m_arialFont12->DrawString(m_spriteBatch, temp.c_str(), Vector2(636, 10), Color(0.0f, 0.0f, 0.0f), 0, Vector2(0, 0));//draws a line at the midpoint of the health bar
+
 	m_spriteBatch->End();
 }
 
@@ -285,7 +291,7 @@ void Game::generateBoard() {
 
 	for (int i = -(width - 1) / 2; i < (width + 1) / 2; i++) {
 		for (int j = -(height - 1) / 2; j < (height + 1) / 2; j++) { //following creates blank slate
-			m_board[i+(width-1)/2][j+(height-1)/2] = new Tile(i, j, m_meshManager->GetMesh("Assets/Meshes/floor_tile.obj"), m_unlitTexturedShader, Vector3(i, 0, j), m_textureManager->GetTexture("Assets/Textures/tile_white.png"), m_gConsts); //string can be blank, mon1-5, tele, heal
+			m_board[i+(width-1)/2][j+(height-1)/2] = new Tile(i, j, m_meshManager->GetMesh("Assets/Meshes/floor_tile.obj"), m_unlitTexturedShader, Vector3(i, 0, j), m_textureManager->GetTexture("Assets/Textures/tile_white.png"), m_gConsts, m_textureManager); //string can be blank, mon1-5, tele, heal
 		}
 	}
 
@@ -297,13 +303,13 @@ void Game::generateBoard() {
 		
 		if (numToLink > 0) {
 			int linkX, linkY;
-			m_board[x][y]->setType("tele", NULL, NULL); //sets type
+			m_board[x][y]->setType("tele", NULL); //sets type
 
 			do {
 				linkX = rand() % width;
 				linkY = rand() % height;
 			} while (m_board[linkX][linkY]->getActive() == false || m_board[linkX][linkY]->getType() != "blank" || (x == (width - 1) / 2 && y == (width - 1) / 2)); //if tile hasnt been selected yet
-			m_board[linkX][linkY]->setType("tele", NULL, NULL); //sets type
+			m_board[linkX][linkY]->setType("tele", NULL); //sets type
 
 			m_board[linkX][linkY]->linkTile(m_board[x][y]); //links tile
 			m_board[x][y]->linkTile(m_board[linkX][linkY]); //links tile
@@ -311,7 +317,7 @@ void Game::generateBoard() {
 		}
 		else if (monNum > 0) {
 			Character* tempMon;
-			m_board[x][y]->setType("mon", m_meshManager, m_textureManager); //sets type
+			m_board[x][y]->setType("mon", m_meshManager); //sets type
 			if (monNum == 1) { tempMon = new Character("mon1", 10); } //makes first mon
 			 else if (monNum == 2) { tempMon = new Character("mon2", 20); }
 			 else if (monNum == 3) { tempMon = new Character("mon3", 30); }
@@ -322,7 +328,7 @@ void Game::generateBoard() {
 			monNum--;
 		}
 		else if (healNum > 0) {
-			m_board[x][y]->setType("heal", m_meshManager, m_textureManager); //sets type
+			m_board[x][y]->setType("heal", m_meshManager); //sets type
 			healNum--;
 		}
 	} while (numToLink > 0 || monNum > 0 || healNum > 0);

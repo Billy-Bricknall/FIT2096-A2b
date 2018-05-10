@@ -24,6 +24,8 @@ Player::~Player(){
 }
 #include <iostream>
 void Player::update(float timestep, Tile * gBoard[15][15], TextureManager* textureManager, MeshManager* meshManager, Shader* shader){
+	int halfWidth = (m_gConsts->getBoardWidth() - 1) / 2;
+	int halfHeight = (m_gConsts->getBoardHeight() - 1) / 2;
 
 	m_heading += m_input->GetMouseDeltaX() * m_rotateSpeed * timestep;
 	m_pitch += m_input->GetMouseDeltaY() * m_rotateSpeed * timestep;
@@ -43,15 +45,32 @@ void Player::update(float timestep, Tile * gBoard[15][15], TextureManager* textu
 
 	if (m_input->GetKeyHold('W')) {
 		m_position += localForward * m_moveSpeed * timestep;
+		isMoving = true;
 	}
 	else if (m_input->GetKeyHold('S')) {
 		m_position -= localForward * m_moveSpeed * timestep;
+		isMoving = true;
 	}
 	if (m_input->GetKeyHold('D')) {
 		m_position += localRight * m_moveSpeed * timestep;
+		isMoving = true;
 	}
 	else if (m_input->GetKeyHold('A')) {
 		m_position -= localRight * m_moveSpeed * timestep;
+		isMoving = true;
+	}
+
+	if (isMoving) {
+		float tempX = MathsHelper::Clamp(m_position.x, -halfWidth - 0.4, halfWidth + 0.4);
+		float tempZ = MathsHelper::Clamp(m_position.z, -halfHeight - 0.4, halfHeight + 0.4);
+		m_position = Vector3(tempX, 0, tempZ);
+
+		posX = nearbyint(m_position.x); //stops posX from being incorrect and allows tiles at posX to be activated only when Player is actually there
+		posZ = nearbyint(m_position.z);
+
+
+		if (gBoard[posX + halfWidth][posZ + halfHeight]->getType() != "blank" && gBoard[posX + halfWidth][posZ + halfHeight]->getActive() == true) //if further action is required
+			actionTile(gBoard); //performs all special tiles traits
 	}
 
 	if (m_input->GetMouseUp(LEFT_MOUSE)) {
@@ -65,17 +84,9 @@ void Player::update(float timestep, Tile * gBoard[15][15], TextureManager* textu
 			i--;
 		}
 	}
-	
-	posX = nearbyint(m_position.x); //stops posX from being incorrect and allows tiles at posX to be activated only when Player is actually there
-	posZ = nearbyint(m_position.z);
-
-	int halfWidth = (m_gConsts->getBoardWidth() - 1) / 2;
-	int halfHeight = (m_gConsts->getBoardHeight() - 1) / 2;
-
-	if (gBoard[posX + halfWidth][posZ + halfHeight]->getType() != "blank" && gBoard[posX + halfWidth][posZ + halfHeight]->getActive() == true) //if further action is required
-		actionTile(gBoard); //performs all special tiles traits
 
 	SetUniformScale(MathsHelper::RemapRange(player1->getHealth(), 0.0f, player1->getMaxHealth(), 0.02f, 0.1f)); // sets player scale relevent to player health
+	isMoving = false;
 }
 
 Vector3 Player::getPosition(){
@@ -101,11 +112,11 @@ void Player::actionTile(Tile* gBoard[15][15]){
 	int halfHeight = (m_gConsts->getBoardHeight() - 1) / 2;
 
 	if (gBoard[posX + halfWidth][posZ + halfHeight]->getType() == "tele") { //if tile is teleport
-		gBoard[posX + halfWidth][posZ + halfHeight]->setType("blank", NULL, NULL); //deactivate tile early as next deactivation will do tile teleported to
+		gBoard[posX + halfWidth][posZ + halfHeight]->setType("blank", NULL); //deactivate tile early as next deactivation will do tile teleported to
 		int tempX = posX; //needed for getting new posY 2 lines down
 		posX = gBoard[posX + halfWidth][posZ + halfHeight]->getLink()->getPosX();
 		posZ = gBoard[tempX + halfWidth][posZ + halfHeight]->getLink()->getPosY();
 		m_position = Vector3(posX, 0.0f, posZ); // sets new position
-		gBoard[posX + halfWidth][posZ + halfHeight]->setType("blank", NULL, NULL);
+		gBoard[posX + halfWidth][posZ + halfHeight]->setType("blank", NULL);
 	}
 }

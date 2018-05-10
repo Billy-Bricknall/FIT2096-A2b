@@ -1,49 +1,13 @@
-﻿  Window.cpp
+﻿  Tile.cpp
 h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(16): warning C4305: 'initializing': truncation from 'double' to 'const float'
 h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(19): warning C4305: 'initializing': truncation from 'double' to 'const float'
 h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(20): warning C4305: 'initializing': truncation from 'double' to 'const float'
 h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
-  Tile.cpp
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(16): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(19): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(20): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(43): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(47): warning C4305: 'argument': truncation from 'double' to 'float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(95): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(100): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Player.cpp
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(16): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(19): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(20): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(30): warning C4305: 'argument': truncation from 'double' to 'float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(32): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(61): warning C4018: '<': signed/unsigned mismatch
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(69): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(70): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(78): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(108): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Main.cpp
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(16): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(19): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(20): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
-  Game.cpp
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(16): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(19): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(20): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(192): warning C4018: '<': signed/unsigned mismatch
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(214): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(218): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(219): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(269): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(272): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(277): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(280): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(288): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Generating Code...
+h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(44): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(48): warning C4305: 'argument': truncation from 'double' to 'float'
+h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(97): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(102): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(159): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(160): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   FIT2049 - Week 4.vcxproj -> H:\Documents\Uni\FIT2096\FIT2096 A2b\FIT2096 - Week 4 Base\Debug\FIT2096 - Week 4 Base.exe
   FIT2049 - Week 4.vcxproj -> H:\Documents\Uni\FIT2096\FIT2096 A2b\FIT2096 - Week 4 Base\Debug\FIT2096 - Week 4 Base.pdb (Full PDB)

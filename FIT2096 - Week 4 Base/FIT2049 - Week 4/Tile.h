@@ -17,6 +17,7 @@ private:
 	Tile* linkingTile; //tile that is linked for teleporting
 	int positionX; //x position of tile
 	int positionY; //y position of tile
+	TextureManager* textureManager;
 	GameConstants* m_gConsts;
 	//below only for enemies
 	Character* enemy; //stores enemy stats and battle logic for monster tiles
@@ -28,7 +29,7 @@ private:
 
 
 public:
-	Tile(int newPosX, int newPosY, Mesh* mesh, Shader* shader, Vector3 position, Texture* texture, GameConstants* newGConsts);
+	Tile(int newPosX, int newPosY, Mesh* mesh, Shader* shader, Vector3 position, Texture* texture, GameConstants* newGConsts, TextureManager* newTextureManager);
 	~Tile();
 
 	//accessors
@@ -45,7 +46,7 @@ public:
 	//mutators
 	void deactivate(); //deactivates the tile
 	void linkTile(Tile* newLink); //links 2 tiles
-	void setType(string newType, MeshManager* meshManager, TextureManager* textureManager); // sets type of tile
+	void setType(string newType, MeshManager* meshManager); // sets type of tile
 	//below only for enemies
 	void setEnemy(Character* newEnemy); //sets and enemy to a tile
 	static int charSelect;
@@ -56,6 +57,6 @@ public:
 	void enemyMovement4(float timestep);
 	void enemyMovement5(float timestep);
 
-	void update(float timestep, TextureManager* textureManager, MeshManager* meshManager, Vector3 pos); //changes texture depending on type
+	void update(float timestep, MeshManager* meshManager, Vector3 pos); //changes texture depending on type
 };
 #endif
