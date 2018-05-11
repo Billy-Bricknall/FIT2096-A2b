@@ -14,7 +14,6 @@ public:
 	Player(Vector3 position, InputController* newInput, GameConstants* newGConsts);
 	~Player();
 	void update(float timestep, Tile* gBoard[15][15], TextureManager* textureManager, MeshManager* meshManager, Shader* shader);
-	Vector3 getPosition();
 	GameState* getGamestate(); //returns current gamestate
 	Character* getCharacter() { return player1; }
 	void shoot(TextureManager* textureManager, MeshManager* meshManager, Shader* shader);

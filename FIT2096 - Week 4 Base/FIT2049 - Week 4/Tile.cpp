@@ -88,7 +88,7 @@ Bullet * Tile::getBullet(){
 	return b1;
 }
 
-void Tile::update(float timestep, MeshManager* meshManager, Vector3 pos) { //changes textures depending on types and if active
+void Tile::update(float timestep, MeshManager* meshManager, Vector3 pos, float rot) { //changes textures depending on types and if active
 
 	if (charMesh != NULL && type == "mon") {
 		float angle;
@@ -121,7 +121,10 @@ void Tile::update(float timestep, MeshManager* meshManager, Vector3 pos) { //cha
 			enemyMovement2(timestep);
 			break;
 		case 3:
-			enemyMovement3(timestep);
+			if (Vector3::DistanceSquared(charMesh->GetPosition(), pos) < 9)
+				enemyMovement1(timestep);
+			else 
+				enemyMovement3(timestep, pos, rot);
 			break;
 		case 4:
 			enemyMovement4(timestep);
@@ -153,7 +156,6 @@ void Tile::enemyMovement2(float timestep) {
 	Vector3 tempPos = charMesh->GetPosition();
 	tempPos -= localForward * m_moveSpeed * timestep;
 
-
 	int width = (m_gConsts->getBoardWidth() - 1) / 2;
 	int height = (m_gConsts->getBoardHeight() - 1) / 2;
 	float tempX = MathsHelper::Clamp(tempPos.x, -width, width);
@@ -162,8 +164,25 @@ void Tile::enemyMovement2(float timestep) {
 	charMesh->SetPosition(tempPos);
 }
 
-void Tile::enemyMovement3(float timestep) {
+void Tile::enemyMovement3(float timestep, Vector3 pos, float rot) {
+	Vector3 worldForward = Vector3(0, 0, 1);
+	Matrix playerHeading = Matrix::CreateRotationY(rot);
+	Vector3 playerForward = Vector3::TransformNormal(worldForward, playerHeading);
 
+	Vector3 goTo = pos + playerForward * m_gConsts->getCutoffDistance();
+
+	Vector3 tempPos = charMesh->GetPosition();
+	Vector3 moveVec = goTo - tempPos;
+	moveVec.Normalize();
+	
+	tempPos += moveVec * m_moveSpeed * timestep;
+
+	int width = (m_gConsts->getBoardWidth() - 1) / 2;
+	int height = (m_gConsts->getBoardHeight() - 1) / 2;
+	float tempX = MathsHelper::Clamp(tempPos.x, -width, width);
+	float tempZ = MathsHelper::Clamp(tempPos.z, -height, height);
+	tempPos = Vector3(tempX, 0, tempZ);
+	charMesh->SetPosition(tempPos);
 }
 
 void Tile::enemyMovement4(float timestep) {

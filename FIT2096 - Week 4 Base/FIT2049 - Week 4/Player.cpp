@@ -89,10 +89,6 @@ void Player::update(float timestep, Tile * gBoard[15][15], TextureManager* textu
 	isMoving = false;
 }
 
-Vector3 Player::getPosition(){
-	return m_position;
-}
-
 GameState * Player::getGamestate(){
 	return gState;
 }

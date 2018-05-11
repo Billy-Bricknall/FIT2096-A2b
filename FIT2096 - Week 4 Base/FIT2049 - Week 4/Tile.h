@@ -53,10 +53,10 @@ public:
 
 	void enemyMovement1(float timestep);
 	void enemyMovement2(float timestep);
-	void enemyMovement3(float timestep);
+	void enemyMovement3(float timestep, Vector3 pos, float rot);
 	void enemyMovement4(float timestep);
 	void enemyMovement5(float timestep);
 
-	void update(float timestep, MeshManager* meshManager, Vector3 pos); //changes texture depending on type
+	void update(float timestep, MeshManager* meshManager, Vector3 pos, float rot); //changes texture depending on type
 };
 #endif

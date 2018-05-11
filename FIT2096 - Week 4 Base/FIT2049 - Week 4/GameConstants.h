@@ -20,6 +20,7 @@ private:
 	const float GUN_OFFSET_Y = 1.2;
 	const float GUN_OFFSET_Z = 0.137;
 	const int SHOT_TIMER = 400;
+	const float CUTOFF_DISTANCE = 3;
 
 
 public:
@@ -36,5 +37,6 @@ public:
 	float getGunOffsetY() { return GUN_OFFSET_Y; }
 	float getGunOffsetZ() { return GUN_OFFSET_Z; }
 	int getShotTimer() { return SHOT_TIMER; }
+	float getCutoffDistance() { return CUTOFF_DISTANCE; }
 };
 #endif

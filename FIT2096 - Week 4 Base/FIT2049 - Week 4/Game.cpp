@@ -153,7 +153,7 @@ void Game::Update(float timestep){
 	if (!p1->getGamestate()->getGameLose() && !p1->getGamestate()->getGamewin()) { //if game isnt over
 		for (int i = 0; i < m_gConsts->getBoardWidth(); i++) {
 			for (int j = 0; j < m_gConsts->getBoardHeight(); j++) {
-				m_board[i][j]->update(timestep, m_meshManager, p1->GetPosition()); //update all tiles
+				m_board[i][j]->update(timestep, m_meshManager, p1->GetPosition(), p1->GetYRotation()); //update all tiles
 			}
 		}
 		p1->update(timestep, m_board, m_textureManager, m_meshManager, m_unlitTexturedShader); //update player
