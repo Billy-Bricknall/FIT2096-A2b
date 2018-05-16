@@ -11,7 +11,7 @@
 class Player: public GameObject{
 
 public:
-	Player(Vector3 position, InputController* newInput, GameConstants* newGConsts);
+	Player(Vector3 position, InputController* newInput, GameConstants* newGConsts, AudioSystem* audio);
 	~Player();
 	void update(float timestep, Tile* gBoard[15][15], TextureManager* textureManager, MeshManager* meshManager, Shader* shader);
 	GameState* getGamestate(); //returns current gamestate
@@ -22,6 +22,7 @@ public:
 
 private:
 	InputController * m_input;
+	AudioSystem* m_audio;
 	int posX; //x position
 	int posZ; //z position
 	Vector3 targetPos; //where player is moving to

@@ -7,6 +7,7 @@
 #include "Character.h"
 #include "Bullet.h"
 #include "GameConstants.h"
+#include "AudioSystem.h"
 
 using namespace std;
 
@@ -19,6 +20,7 @@ private:
 	int positionY; //y position of tile
 	TextureManager* textureManager;
 	GameConstants* m_gConsts;
+	AudioSystem* m_audio;
 	//below only for enemies
 	Character* enemy; //stores enemy stats and battle logic for monster tiles
 	Bullet* b1;
@@ -29,7 +31,7 @@ private:
 
 
 public:
-	Tile(int newPosX, int newPosY, Mesh* mesh, Shader* shader, Vector3 position, Texture* texture, GameConstants* newGConsts, TextureManager* newTextureManager);
+	Tile(int newPosX, int newPosY, Mesh* mesh, Shader* shader, Vector3 position, Texture* texture, GameConstants* newGConsts, TextureManager* newTextureManager, AudioSystem* audio);
 	~Tile();
 
 	//accessors

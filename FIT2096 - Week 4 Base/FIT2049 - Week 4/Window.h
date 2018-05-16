@@ -24,6 +24,7 @@ private:
 	HWND m_windowHandle;	//The Handle to this window, whenever to ask the Windows API to do something to the window you will pass it this handle
 
 	Direct3D* m_renderer;	//The direct3D renderer class that we wrote, this will be used to set the background colour for our window.
+	AudioSystem* m_audio;
 	InputController* m_input;//The Input Controller is declared here. It will use the Window Proc to update it's state
 	Game* m_game;			//This is our Game object. Here we create, update and render all of our game objects/models
 

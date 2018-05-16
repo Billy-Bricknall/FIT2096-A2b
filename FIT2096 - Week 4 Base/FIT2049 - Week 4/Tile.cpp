@@ -2,7 +2,7 @@
 
 int Tile::charSelect;
 
-Tile::Tile(int newPosX, int newPosY, Mesh* mesh, Shader* shader, Vector3 position, Texture* texture, GameConstants* newGConsts, TextureManager* newTextureManager) : GameObject(mesh, shader, position, texture){
+Tile::Tile(int newPosX, int newPosY, Mesh* mesh, Shader* shader, Vector3 position, Texture* texture, GameConstants* newGConsts, TextureManager* newTextureManager, AudioSystem* audio) : GameObject(mesh, shader, position, texture){
 	positionX = newPosX;
 	positionY = newPosY;
 	isActive = true;
@@ -10,6 +10,7 @@ Tile::Tile(int newPosX, int newPosY, Mesh* mesh, Shader* shader, Vector3 positio
 	charMesh = NULL;
 	m_gConsts = newGConsts;
 	textureManager = newTextureManager;
+	m_audio = audio;
 }
 
 Tile::~Tile(){
@@ -41,7 +42,7 @@ void Tile::setType(string newType, MeshManager* meshManager) {
 			charSelect++;
 		charType = charSelect;
 		m_moveSpeed = 1;
-		shotSpeed = m_gConsts->getShotTimer() * MathsHelper::RandomRange(0.7f, 1.0f);
+		shotSpeed = m_gConsts->getShotTimer() * MathsHelper::RandomRange(0.5f, 1.0f);
 	}
 	else if (type == "heal") {
 		charMesh = new GameObject(meshManager->GetMesh("Assets/Meshes/player_capsule.obj"), m_shader, m_position + Vector3(0.5f, 0.2f, 0.0f), textureManager->GetTexture("Assets/Textures/tile_green.png")); //creates 3d sprite
@@ -109,7 +110,7 @@ void Tile::update(float timestep, MeshManager* meshManager, Vector3 pos, float r
 			timer = 0;
 			if(b1)
 				delete b1;
-			b1 = new Bullet(meshManager->GetMesh("Assets/Meshes/bullet.obj"), m_shader, gunPos, textureManager->GetTexture("Assets/Textures/bullet.png"), charMesh->GetYRotation()); //creates bullet
+			b1 = new Bullet(meshManager->GetMesh("Assets/Meshes/bullet.obj"), m_shader, gunPos, textureManager->GetTexture("Assets/Textures/bullet.png"), charMesh->GetYRotation(), m_audio, m_gConsts); //creates bullet
 		}
 		timer++;
 

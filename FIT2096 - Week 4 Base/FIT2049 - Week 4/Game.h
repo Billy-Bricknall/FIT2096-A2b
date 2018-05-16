@@ -14,6 +14,7 @@
 #include "FirstPersonCamera.h"
 #include "DirectXTK/SpriteBatch.h"
 #include "DirectXTK/SpriteFont.h"
+#include "AudioSystem.h"
 
 class Game
 {
@@ -23,6 +24,7 @@ private:
 	InputController* m_input;
 	MeshManager* m_meshManager;
 	TextureManager* m_textureManager;
+	AudioSystem* m_audio;
 
 	SpriteBatch* m_spriteBatch;
 	SpriteFont* m_arialFont12;
@@ -44,6 +46,7 @@ private:
 	bool InitShaders();
 	bool LoadMeshes();
 	bool LoadTextures();
+	bool LoadAudio();
 	void LoadFonts();
 	void InitGameWorld();
 
@@ -55,7 +58,7 @@ public:
 	Game();	
 	~Game();
 
-	bool Initialise(Direct3D* renderer, InputController* input); //The initialise method will load all of the content for the game (meshes, textures, etc.)
+	bool Initialise(Direct3D* renderer, InputController* input, AudioSystem* audio); //The initialise method will load all of the content for the game (meshes, textures, etc.)
 
 	void Update(float timestep);	//The overall Update method for the game. All gameplay logic will be done somewhere within this method
 	void Render();					//The overall Render method for the game. Here all of the meshes that need to be drawn will be drawn

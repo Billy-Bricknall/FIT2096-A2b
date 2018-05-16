@@ -2,7 +2,7 @@
 #include "MathsHelper.h"
 
 
-Player::Player(Vector3 position, InputController* newInput, GameConstants* newGConsts) : GameObject(NULL, NULL, position){
+Player::Player(Vector3 position, InputController* newInput, GameConstants* newGConsts, AudioSystem* audio) : GameObject(NULL, NULL, position){
 	m_input = newInput;
 	m_moveSpeed = newGConsts->getMoveSpeed();
 	player1 = new Character("player", 50);
@@ -14,6 +14,7 @@ Player::Player(Vector3 position, InputController* newInput, GameConstants* newGC
 	m_rotateSpeed = 0.5f;
 	isMoving = false;
 	m_gConsts = newGConsts;
+	m_audio = audio;
 }
 
 Player::~Player(){
@@ -95,7 +96,7 @@ GameState * Player::getGamestate(){
 
 void Player::shoot(TextureManager* textureManager, MeshManager* meshManager, Shader* shader){
 	Vector3 bulletStart = Vector3(0, m_gConsts->getCamHeight(), 0) + m_position;
-	Bullet* b1 = new Bullet(meshManager->GetMesh("Assets/Meshes/bullet.obj"), shader, bulletStart, textureManager->GetTexture("Assets/Textures/bullet.png"), m_rotY, m_rotX);
+	Bullet* b1 = new Bullet(meshManager->GetMesh("Assets/Meshes/bullet.obj"), shader, bulletStart, textureManager->GetTexture("Assets/Textures/bullet.png"), m_rotY, m_rotX, m_audio, m_gConsts);
 	bullets.push_back(b1);
 }
 

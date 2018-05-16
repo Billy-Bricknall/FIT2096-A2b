@@ -19,8 +19,11 @@ private:
 	const float GUN_OFFSET_X = -0.133;
 	const float GUN_OFFSET_Y = 1.2;
 	const float GUN_OFFSET_Z = 0.137;
-	const int SHOT_TIMER = 400;
+	const int SHOT_TIMER = 1000;
 	const float CUTOFF_DISTANCE = 3;
+
+	//Bullet.cpp
+	const float BULLET_VOLUME = 0.3f;
 
 
 public:
@@ -38,5 +41,6 @@ public:
 	float getGunOffsetZ() { return GUN_OFFSET_Z; }
 	int getShotTimer() { return SHOT_TIMER; }
 	float getCutoffDistance() { return CUTOFF_DISTANCE; }
+	float getBulletVolume() { return BULLET_VOLUME; }
 };
 #endif

@@ -22,10 +22,11 @@ Game::Game()
 
 Game::~Game() {}
 
-bool Game::Initialise(Direct3D* renderer, InputController* input)
+bool Game::Initialise(Direct3D* renderer, InputController* input, AudioSystem* audio)
 {
 	m_renderer = renderer;	
 	m_input = input;
+	m_audio = audio;
 	m_meshManager = new MeshManager();
 	m_textureManager = new TextureManager();
 	m_gConsts = new GameConstants();
@@ -38,6 +39,9 @@ bool Game::Initialise(Direct3D* renderer, InputController* input)
 		return false;
 
 	if (!LoadTextures())
+		return false;
+
+	if (!LoadAudio())
 		return false;
 
 	LoadFonts();
@@ -118,6 +122,24 @@ bool Game::LoadTextures()
 	return true;
 }
 
+bool Game::LoadAudio()
+{
+	if (!m_audio->Load("Assets/Sounds/Pew1.wav"))
+		return false;
+	if (!m_audio->Load("Assets/Sounds/Pew2.wav"))
+		return false;
+	if (!m_audio->Load("Assets/Sounds/Pew3.wav"))
+		return false;
+	if (!m_audio->Load("Assets/Sounds/Pew4.wav"))
+		return false;
+	if (!m_audio->Load("Assets/Sounds/Pew5.wav"))
+		return false;
+	if (!m_audio->Load("Assets/Sounds/Pew6.wav"))
+		return false;
+
+	return true;
+}
+
 void Game::LoadFonts()
 {
 	m_arialFont12 = new SpriteFont(m_renderer->GetDevice(), L"Assets/Fonts/Arial-12pt.spritefont");
@@ -144,11 +166,13 @@ void Game::RefreshUI()
 void Game::InitGameWorld()
 {
 	generateBoard(); //randomly generates a gameboard
-	p1 = new Player(Vector3(0.0f, 0.0f, 0.0f), m_input, m_gConsts);
+	p1 = new Player(Vector3(0.0f, 0.0f, 0.0f), m_input, m_gConsts, m_audio);
 }
 
 void Game::Update(float timestep){
 	m_input->BeginUpdate();
+
+	m_audio->Update();
 
 	if (!p1->getGamestate()->getGameLose() && !p1->getGamestate()->getGamewin()) { //if game isnt over
 		for (int i = 0; i < m_gConsts->getBoardWidth(); i++) {
@@ -259,6 +283,13 @@ void Game::Shutdown()
 		m_textureManager = NULL;
 	}
 
+	if (m_audio)
+	{
+		m_audio->Shutdown();
+		delete m_audio;
+		m_audio = NULL;
+	}
+
 }
 
 void Game::generateBoard() {
@@ -291,7 +322,7 @@ void Game::generateBoard() {
 
 	for (int i = -(width - 1) / 2; i < (width + 1) / 2; i++) {
 		for (int j = -(height - 1) / 2; j < (height + 1) / 2; j++) { //following creates blank slate
-			m_board[i+(width-1)/2][j+(height-1)/2] = new Tile(i, j, m_meshManager->GetMesh("Assets/Meshes/floor_tile.obj"), m_unlitTexturedShader, Vector3(i, 0, j), m_textureManager->GetTexture("Assets/Textures/tile_white.png"), m_gConsts, m_textureManager); //string can be blank, mon1-5, tele, heal
+			m_board[i+(width-1)/2][j+(height-1)/2] = new Tile(i, j, m_meshManager->GetMesh("Assets/Meshes/floor_tile.obj"), m_unlitTexturedShader, Vector3(i, 0, j), m_textureManager->GetTexture("Assets/Textures/tile_white.png"), m_gConsts, m_textureManager, m_audio); //string can be blank, mon1-5, tele, heal
 		}
 	}
 
