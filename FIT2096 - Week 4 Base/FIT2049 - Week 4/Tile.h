@@ -28,6 +28,7 @@ private:
 	int charType;
 	int timer;
 	int shotSpeed;
+	Vector3 targetPos;
 
 
 public:
@@ -57,7 +58,7 @@ public:
 	void enemyMovement2(float timestep);
 	void enemyMovement3(float timestep, Vector3 pos, float rot);
 	void enemyMovement4(float timestep);
-	void enemyMovement5(float timestep);
+	void enemyMovement5(float timestep, Vector3 pos);
 
 	void update(float timestep, MeshManager* meshManager, Vector3 pos, float rot); //changes texture depending on type
 };

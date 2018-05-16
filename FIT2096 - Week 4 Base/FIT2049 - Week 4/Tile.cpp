@@ -5,6 +5,7 @@ int Tile::charSelect;
 Tile::Tile(int newPosX, int newPosY, Mesh* mesh, Shader* shader, Vector3 position, Texture* texture, GameConstants* newGConsts, TextureManager* newTextureManager, AudioSystem* audio) : GameObject(mesh, shader, position, texture){
 	positionX = newPosX;
 	positionY = newPosY;
+	targetPos = Vector3(positionX, 0, positionY);
 	isActive = true;
 	type = "blank"; //blank means tile doesnt have an action
 	charMesh = NULL;
@@ -131,7 +132,7 @@ void Tile::update(float timestep, MeshManager* meshManager, Vector3 pos, float r
 			enemyMovement4(timestep);
 			break;
 		case 5:
-			enemyMovement5(timestep);
+			enemyMovement5(timestep, pos);
 			break;
 		}
 
@@ -157,8 +158,8 @@ void Tile::enemyMovement2(float timestep) {
 	Vector3 tempPos = charMesh->GetPosition();
 	tempPos -= localForward * m_moveSpeed * timestep;
 
-	int width = (m_gConsts->getBoardWidth() - 1) / 2;
-	int height = (m_gConsts->getBoardHeight() - 1) / 2;
+	int width = m_gConsts->getHalfWidth();
+	int height = m_gConsts->getHalfHeight();
 	float tempX = MathsHelper::Clamp(tempPos.x, -width, width);
 	float tempZ = MathsHelper::Clamp(tempPos.z, -height, height);
 	tempPos = Vector3(tempX, 0, tempZ);
@@ -178,8 +179,8 @@ void Tile::enemyMovement3(float timestep, Vector3 pos, float rot) {
 	
 	tempPos += moveVec * m_moveSpeed * timestep;
 
-	int width = (m_gConsts->getBoardWidth() - 1) / 2;
-	int height = (m_gConsts->getBoardHeight() - 1) / 2;
+	int width = m_gConsts->getHalfWidth();
+	int height = m_gConsts->getHalfHeight();
 	float tempX = MathsHelper::Clamp(tempPos.x, -width, width);
 	float tempZ = MathsHelper::Clamp(tempPos.z, -height, height);
 	tempPos = Vector3(tempX, 0, tempZ);
@@ -187,9 +188,39 @@ void Tile::enemyMovement3(float timestep, Vector3 pos, float rot) {
 }
 
 void Tile::enemyMovement4(float timestep) {
+	int width = m_gConsts->getHalfWidth();
+	int height = m_gConsts->getHalfHeight();
 
+	if (Vector3::DistanceSquared(charMesh->GetPosition(), targetPos) < 0.1f) {
+		float targetPosX = MathsHelper::RandomRange(-width, width);
+		float targetPosZ = MathsHelper::RandomRange(-height, height);
+		targetPos = Vector3(targetPosX, 0, targetPosZ);
+	}
+
+	Vector3 tempPos = charMesh->GetPosition();
+	Vector3 moveVec = targetPos - tempPos;
+	moveVec.Normalize();
+
+	tempPos += moveVec * m_moveSpeed * timestep;
+
+	charMesh->SetPosition(tempPos);
 }
 
-void Tile::enemyMovement5(float timestep) {
+void Tile::enemyMovement5(float timestep, Vector3 pos) {
+	int width = m_gConsts->getHalfWidth();
+	int height = m_gConsts->getHalfHeight();
 
+	if (Vector3::DistanceSquared(charMesh->GetPosition(), targetPos) < 0.1f && Vector3::DistanceSquared(charMesh->GetPosition(), pos) < 4.0f) {
+		float targetPosX = MathsHelper::RandomRange(-width, width);
+		float targetPosZ = MathsHelper::RandomRange(-height, height);
+		targetPos = Vector3(targetPosX, 0, targetPosZ);
+	}
+
+	Vector3 tempPos = charMesh->GetPosition();
+	Vector3 moveVec = targetPos - tempPos;
+	moveVec.Normalize();
+
+	tempPos += moveVec * m_moveSpeed * timestep;
+
+	charMesh->SetPosition(tempPos);
 }
