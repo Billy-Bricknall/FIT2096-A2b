@@ -8,6 +8,7 @@
 #include "Bullet.h"
 #include "GameConstants.h"
 #include "AudioSystem.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -59,6 +60,8 @@ public:
 	void enemyMovement3(float timestep, Vector3 pos, float rot);
 	void enemyMovement4(float timestep);
 	void enemyMovement5(float timestep, Vector3 pos);
+
+	void hasCollided();
 
 	void update(float timestep, MeshManager* meshManager, Vector3 pos, float rot); //changes texture depending on type
 };

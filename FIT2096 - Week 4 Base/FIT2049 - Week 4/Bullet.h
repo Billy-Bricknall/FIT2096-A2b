@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "AudioSystem.h"
 #include "GameConstants.h"
+#include "CollisionManager.h"
 
 class Bullet: public GameObject
 {

@@ -224,3 +224,7 @@ void Tile::enemyMovement5(float timestep, Vector3 pos) {
 
 	charMesh->SetPosition(tempPos);
 }
+
+void Tile::hasCollided(){
+
+}

@@ -104,6 +104,14 @@ vector<Bullet*> Player::getBullet(){
 	return bullets;
 }
 
+CBoundingBox Player::getBounds(){
+	return CBoundingBox();
+}
+
+void Player::hasCollided(){
+
+}
+
 void Player::actionTile(Tile* gBoard[15][15]){
 	int halfWidth = (m_gConsts->getBoardWidth() - 1) / 2;
 	int halfHeight = (m_gConsts->getBoardHeight() - 1) / 2;

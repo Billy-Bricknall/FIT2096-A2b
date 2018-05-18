@@ -1,62 +1,69 @@
 ﻿  Window.cpp
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(18): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(22): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(23): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(18): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(22): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(23): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\collisionmanager.h(6): fatal error C1083: Cannot open include file: 'Kart.h': No such file or directory
   Tile.cpp
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(18): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(22): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(23): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(8): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(46): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(50): warning C4305: 'argument': truncation from 'double' to 'float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(99): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(104): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(163): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(164): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(184): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(185): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(195): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(196): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(214): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\tile.cpp(215): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(18): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(22): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(23): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\collisionmanager.h(6): fatal error C1083: Cannot open include file: 'Kart.h': No such file or directory
+  TextureManager.cpp
+  TexturedShader.cpp
+  Texture.cpp
+  Shader.cpp
   Player.cpp
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(18): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(22): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(23): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(33): warning C4305: 'argument': truncation from 'double' to 'float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(34): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(65): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(66): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(69): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(70): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(81): warning C4018: '<': signed/unsigned mismatch
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(89): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\player.cpp(116): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(18): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(22): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(23): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\collisionmanager.h(6): fatal error C1083: Cannot open include file: 'Kart.h': No such file or directory
+  MeshManager.cpp
+  Mesh.cpp
   Main.cpp
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(18): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(22): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(23): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(18): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(22): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(23): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\collisionmanager.h(6): fatal error C1083: Cannot open include file: 'Kart.h': No such file or directory
+  InputController.cpp
+  GameState.cpp
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(18): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(22): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(23): warning C4305: 'initializing': truncation from 'double' to 'const float'
+  GameObject.cpp
+  GameConstants.cpp
+  Game.cpp
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(18): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(22): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(23): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\collisionmanager.h(6): fatal error C1083: Cannot open include file: 'Kart.h': No such file or directory
+  FirstPersonCamera.cpp
+e:\fit2096 - assignment 2b\fit2049 - week 4\firstpersoncamera.cpp(10): warning C4305: 'argument': truncation from 'double' to 'float'
+  Direct3D.cpp
+  Collisions.cpp
+e:\fit2096 - assignment 2b\fit2049 - week 4\collisions.cpp(147): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  CollisionManager.cpp
+e:\fit2096 - assignment 2b\fit2049 - week 4\collisionmanager.h(6): fatal error C1083: Cannot open include file: 'Kart.h': No such file or directory
+  Character.cpp
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(18): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(22): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(23): warning C4305: 'initializing': truncation from 'double' to 'const float'
   Generating Code...
   Compiling...
-  Game.cpp
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(18): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(22): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\gameconstants.h(23): warning C4305: 'initializing': truncation from 'double' to 'const float'
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(216): warning C4018: '<': signed/unsigned mismatch
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(239): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(243): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(244): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(306): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(309): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(314): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(317): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\documents\uni\fit2096\fit2096 a2b\fit2096 - week 4 base\fit2049 - week 4\game.cpp(325): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Camera.cpp
+e:\fit2096 - assignment 2b\fit2049 - week 4\camera.cpp(17): warning C4305: '=': truncation from 'double' to 'float'
+  Bullet.cpp
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(18): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(21): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(22): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\gameconstants.h(23): warning C4305: 'initializing': truncation from 'double' to 'const float'
+e:\fit2096 - assignment 2b\fit2049 - week 4\collisionmanager.h(6): fatal error C1083: Cannot open include file: 'Kart.h': No such file or directory
+  AudioSystem.cpp
+  AudioClip.cpp
   Generating Code...
-  FIT2049 - Week 4.vcxproj -> H:\Documents\Uni\FIT2096\FIT2096 A2b\FIT2096 - Week 4 Base\Debug\FIT2096 - Week 4 Base.exe
-  FIT2049 - Week 4.vcxproj -> H:\Documents\Uni\FIT2096\FIT2096 A2b\FIT2096 - Week 4 Base\Debug\FIT2096 - Week 4 Base.pdb (Full PDB)

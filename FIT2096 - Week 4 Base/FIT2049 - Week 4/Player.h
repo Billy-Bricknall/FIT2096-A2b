@@ -18,6 +18,8 @@ public:
 	Character* getCharacter() { return player1; }
 	void shoot(TextureManager* textureManager, MeshManager* meshManager, Shader* shader);
 	vector<Bullet*> getBullet();
+	CBoundingBox getBounds();
+	void hasCollided();
 
 
 private:
@@ -33,6 +35,7 @@ private:
 	GameConstants* m_gConsts;
 	vector<Bullet*> bullets;
 	bool isMoving;
+	CBoundingBox m_boundingBox;
 	
 
 	float m_heading;
