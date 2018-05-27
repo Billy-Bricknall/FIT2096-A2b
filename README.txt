@@ -1,0 +1,1 @@
+All sounds recorded and edited by myself and Kyle Hoffman (my housemate who is a sound designer)

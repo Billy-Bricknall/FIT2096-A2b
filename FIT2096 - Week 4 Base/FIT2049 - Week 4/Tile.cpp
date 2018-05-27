@@ -272,5 +272,6 @@ void Tile::bulletHasCollided(Bullet * bullet, GameState* gState){
 
 	if (enemy->getHealth() == 0) {
 		gState->addMonDef(enemy);
+		m_audio->Play("Assets/Sounds/Wilhelm-Scream.mp3", false);
 	}
 }
