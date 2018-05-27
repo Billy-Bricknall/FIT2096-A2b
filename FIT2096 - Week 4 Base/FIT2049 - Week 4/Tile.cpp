@@ -43,19 +43,22 @@ void Tile::setType(string newType, MeshManager* meshManager) {
 			charSelect++;
 		charType = charSelect;
 		m_moveSpeed = 1;
+		timer = MathsHelper::RandomRange(-200, -10);
 		shotSpeed = m_gConsts->getShotTimer() * MathsHelper::RandomRange(0.5f, 1.0f);
+		m_boundingBox = CBoundingBox(charMesh->GetPosition() + charMesh->GetMesh()->GetMin(), charMesh->GetPosition() + charMesh->GetMesh()->GetMax());
 	}
 	else if (type == "heal") {
 		charMesh = new GameObject(meshManager->GetMesh("Assets/Meshes/player_capsule.obj"), m_shader, m_position + Vector3(0.5f, 0.2f, 0.0f), textureManager->GetTexture("Assets/Textures/tile_green.png")); //creates 3d sprite
 		charMesh->SetZRotation(PI / 2); //rotation capsule to side
+		m_boundingBox = CBoundingBox(charMesh->GetPosition() + charMesh->GetMesh()->GetMin(), charMesh->GetPosition() + charMesh->GetMesh()->GetMax());
 	}
 	else if (type == "tele") {
 		m_texture = textureManager->GetTexture("Assets/Textures/tile_blue.png");
+		m_boundingBox = CBoundingBox(m_position + m_mesh->GetMin(), m_position + m_mesh->GetMax() + Vector3(0.0, 0.1, 0.0));
 	}
 	else {
 		m_texture = textureManager->GetTexture("Assets/Textures/tile_white.png");
 	}
-
 }
 
 int Tile::getPosX() {
@@ -76,6 +79,10 @@ string Tile::getType() {
 
 Tile* Tile::getLink() {
 	return linkingTile;
+}
+
+CBoundingBox Tile::getBounds(){
+	return m_boundingBox;
 }
 
 Character * Tile::getEnemy(){
@@ -100,8 +107,11 @@ void Tile::update(float timestep, MeshManager* meshManager, Vector3 pos, float r
 		
 		charMesh->SetYRotation(angle); //makes enemies look at player
 
-		charMesh->SetUniformScale(enemy->getHealth()/50.0f); //makes weaker enemies smaller
-		m_moveSpeed = MathsHelper::RemapRange(enemy->getHealth(), 0.0f, 50.0f, 3.0f, 1.0f);
+		float shrinkBy = enemy->getHealth() / 50.0f;
+		if (shrinkBy < 0.2)
+			shrinkBy = 0.2;
+		charMesh->SetUniformScale(shrinkBy); //makes weaker enemies smaller
+		m_moveSpeed = MathsHelper::RemapRange(enemy->getHealth(), 0.0f, 50.0f, 2.5f, 1.0f);
 		
 		
 		if (timer % shotSpeed == 0) {
@@ -138,7 +148,17 @@ void Tile::update(float timestep, MeshManager* meshManager, Vector3 pos, float r
 
 
 		charMesh->Update(timestep);
-		b1->update(timestep);
+		if(b1)
+			b1->update(timestep);
+
+		m_boundingBox.SetMin(charMesh->GetPosition() + charMesh->GetMesh()->GetMin() * shrinkBy);
+		m_boundingBox.SetMax(charMesh->GetPosition() + charMesh->GetMesh()->GetMax() * shrinkBy);
+
+		if (enemy->getHealth() == 0) {
+			setType("blank", NULL);
+			charMesh = NULL;
+			delete b1;
+		}
 	}
 }
 
@@ -158,11 +178,6 @@ void Tile::enemyMovement2(float timestep) {
 	Vector3 tempPos = charMesh->GetPosition();
 	tempPos -= localForward * m_moveSpeed * timestep;
 
-	int width = m_gConsts->getHalfWidth();
-	int height = m_gConsts->getHalfHeight();
-	float tempX = MathsHelper::Clamp(tempPos.x, -width, width);
-	float tempZ = MathsHelper::Clamp(tempPos.z, -height, height);
-	tempPos = Vector3(tempX, 0, tempZ);
 	charMesh->SetPosition(tempPos);
 }
 
@@ -179,11 +194,6 @@ void Tile::enemyMovement3(float timestep, Vector3 pos, float rot) {
 	
 	tempPos += moveVec * m_moveSpeed * timestep;
 
-	int width = m_gConsts->getHalfWidth();
-	int height = m_gConsts->getHalfHeight();
-	float tempX = MathsHelper::Clamp(tempPos.x, -width, width);
-	float tempZ = MathsHelper::Clamp(tempPos.z, -height, height);
-	tempPos = Vector3(tempX, 0, tempZ);
 	charMesh->SetPosition(tempPos);
 }
 
@@ -226,5 +236,41 @@ void Tile::enemyMovement5(float timestep, Vector3 pos) {
 }
 
 void Tile::hasCollided(){
+	if (type == "heal") {
+		setType("blank", NULL);
+		charMesh = NULL;
+	}
+}
 
+void Tile::wallHasCollided(){
+	int halfWidth = (m_gConsts->getBoardWidth() - 1) / 2;
+	int halfHeight = (m_gConsts->getBoardHeight() - 1) / 2;
+	
+	float tempX = MathsHelper::Clamp(charMesh->GetPosition().x, -halfWidth, halfWidth );
+	float tempZ = MathsHelper::Clamp(charMesh->GetPosition().z, -halfHeight, halfHeight );
+	charMesh->SetPosition(Vector3(tempX, 0, tempZ));
+}
+
+void Tile::bulletHasCollided(Bullet * bullet, GameState* gState){
+	enemy->changeHealth(-bullet->getBulletDamage());
+
+	int randNum = rand() % 4 + 1;
+	switch (randNum) {
+	case 1:
+		m_audio->Play("Assets/Sounds/Impact1.wav", false);
+		break;
+	case 2:
+		m_audio->Play("Assets/Sounds/Impact2.wav", false);
+		break;
+	case 3:
+		m_audio->Play("Assets/Sounds/Impact3.wav", false);
+		break;
+	case 4:
+		m_audio->Play("Assets/Sounds/Impact4.wav", false);
+		break;
+	}
+
+	if (enemy->getHealth() == 0) {
+		gState->addMonDef(enemy);
+	}
 }

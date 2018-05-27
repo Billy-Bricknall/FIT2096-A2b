@@ -12,9 +12,10 @@ Player::Player(Vector3 position, InputController* newInput, GameConstants* newGC
 	m_heading = 0.0f;
 	m_pitch = 0.0f;
 	m_rotateSpeed = 0.5f;
-	isMoving = false;
 	m_gConsts = newGConsts;
 	m_audio = audio;
+	m_boundingBox = CBoundingBox(m_position + m_gConsts->getMinPBounds(), m_position + m_gConsts->getMaxPBounds());
+	shotTimer = 0;
 }
 
 Player::~Player(){
@@ -23,7 +24,7 @@ Player::~Player(){
 	delete gState;
 	delete m_gConsts;
 }
-#include <iostream>
+
 void Player::update(float timestep, Tile * gBoard[15][15], TextureManager* textureManager, MeshManager* meshManager, Shader* shader){
 	int halfWidth = (m_gConsts->getBoardWidth() - 1) / 2;
 	int halfHeight = (m_gConsts->getBoardHeight() - 1) / 2;
@@ -46,36 +47,25 @@ void Player::update(float timestep, Tile * gBoard[15][15], TextureManager* textu
 
 	if (m_input->GetKeyHold('W')) {
 		m_position += localForward * m_moveSpeed * timestep;
-		isMoving = true;
 	}
 	else if (m_input->GetKeyHold('S')) {
 		m_position -= localForward * m_moveSpeed * timestep;
-		isMoving = true;
 	}
 	if (m_input->GetKeyHold('D')) {
 		m_position += localRight * m_moveSpeed * timestep;
-		isMoving = true;
 	}
 	else if (m_input->GetKeyHold('A')) {
 		m_position -= localRight * m_moveSpeed * timestep;
-		isMoving = true;
 	}
 
-	if (isMoving) {
-		float tempX = MathsHelper::Clamp(m_position.x, -halfWidth - 0.4, halfWidth + 0.4);
-		float tempZ = MathsHelper::Clamp(m_position.z, -halfHeight - 0.4, halfHeight + 0.4);
-		m_position = Vector3(tempX, 0, tempZ);
-
-		posX = nearbyint(m_position.x); //stops posX from being incorrect and allows tiles at posX to be activated only when Player is actually there
-		posZ = nearbyint(m_position.z);
-
-
-		if (gBoard[posX + halfWidth][posZ + halfHeight]->getType() != "blank" && gBoard[posX + halfWidth][posZ + halfHeight]->getActive() == true) //if further action is required
-			actionTile(gBoard); //performs all special tiles traits
+	if (shotTimer == 0) {
+		if (m_input->GetMouseUp(LEFT_MOUSE)) {
+			shoot(textureManager, meshManager, shader);
+			shotTimer = m_gConsts->getPlayerShotTimer();
+		}
 	}
-
-	if (m_input->GetMouseUp(LEFT_MOUSE)) {
-		shoot(textureManager, meshManager, shader);
+	else {
+		shotTimer--;
 	}
 
 	for (int i = 0; i < bullets.size(); i++) {
@@ -86,8 +76,8 @@ void Player::update(float timestep, Tile * gBoard[15][15], TextureManager* textu
 		}
 	}
 
-	SetUniformScale(MathsHelper::RemapRange(player1->getHealth(), 0.0f, player1->getMaxHealth(), 0.02f, 0.1f)); // sets player scale relevent to player health
-	isMoving = false;
+	m_boundingBox.SetMin(m_position + m_gConsts->getMinPBounds());
+	m_boundingBox.SetMax(m_position + m_gConsts->getMaxPBounds());
 }
 
 GameState * Player::getGamestate(){
@@ -105,23 +95,55 @@ vector<Bullet*> Player::getBullet(){
 }
 
 CBoundingBox Player::getBounds(){
-	return CBoundingBox();
+	return m_boundingBox;
 }
 
-void Player::hasCollided(){
+void Player::bulletHasCollided(Bullet* bulletHit){
+	player1->changeHealth(-bulletHit->getBulletDamage());
 
+	int randNum = rand() % 4 + 1;
+	switch (randNum) {
+	case 1:
+		m_audio->Play("Assets/Sounds/Impact1.wav", false);
+		break;
+	case 2:
+		m_audio->Play("Assets/Sounds/Impact2.wav", false);
+		break;
+	case 3:
+		m_audio->Play("Assets/Sounds/Impact3.wav", false);
+		break;
+	case 4:
+		m_audio->Play("Assets/Sounds/Impact4.wav", false);
+		break;
+	}
+	if (player1->getHealth() == 0) {
+		gState->changeGameLose();
+	}
 }
 
-void Player::actionTile(Tile* gBoard[15][15]){
+void Player::wallHasCollided(){
 	int halfWidth = (m_gConsts->getBoardWidth() - 1) / 2;
 	int halfHeight = (m_gConsts->getBoardHeight() - 1) / 2;
 
-	if (gBoard[posX + halfWidth][posZ + halfHeight]->getType() == "tele") { //if tile is teleport
-		gBoard[posX + halfWidth][posZ + halfHeight]->setType("blank", NULL); //deactivate tile early as next deactivation will do tile teleported to
-		int tempX = posX; //needed for getting new posY 2 lines down
-		posX = gBoard[posX + halfWidth][posZ + halfHeight]->getLink()->getPosX();
-		posZ = gBoard[tempX + halfWidth][posZ + halfHeight]->getLink()->getPosY();
-		m_position = Vector3(posX, 0.0f, posZ); // sets new position
-		gBoard[posX + halfWidth][posZ + halfHeight]->setType("blank", NULL);
-	}
+	float tempX = MathsHelper::Clamp(m_position.x, -halfWidth, halfWidth);
+	float tempZ = MathsHelper::Clamp(m_position.z, -halfHeight, halfHeight);
+	m_position = Vector3(tempX, 0, tempZ);
+}
+
+void Player::enemyHasCollided(){
+	player1->changeHealth(-100);
+	gState->changeGameLose();
+}
+
+void Player::healthHasCollided(){
+	player1->changeHealth(m_gConsts->getHealAmount());
+	m_audio->Play("Assets/Sounds/Health.wav", false);
+}
+
+void Player::teleportHasCollided(Tile* teleport){
+	m_audio->Play("Assets/Sounds/Teleport.wav", false);
+	teleport->setType("blank", NULL);
+
+	m_position = Vector3(teleport->getLink()->getPosX(), 0.0, teleport->getLink()->getPosY());
+	teleport->getLink()->setType("blank", NULL);
 }

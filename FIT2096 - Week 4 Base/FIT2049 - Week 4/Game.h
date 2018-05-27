@@ -25,6 +25,8 @@ private:
 	MeshManager* m_meshManager;
 	TextureManager* m_textureManager;
 	AudioSystem* m_audio;
+	CollisionManager* m_collisionManager;
+	AudioClip* m_backgroundMusic;
 
 	SpriteBatch* m_spriteBatch;
 	SpriteFont* m_arialFont12;
@@ -35,6 +37,7 @@ private:
 	Player* p1; //pointer to player object
 	Tile* m_board[15][15]; //pointer to 2d array for tiles
 	GameObject* m_wall[64]; // pointer to array for walls
+	std::vector<Tile*> m_tiles;
 	GameConstants* m_gConsts;
 
 	std::wstring m_monsDefeated;

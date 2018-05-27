@@ -9,6 +9,8 @@ Bullet::Bullet(Mesh* mesh, Shader* shader, Vector3 position, Texture* texture, f
 	SetYRotation(rotation); //rotations bullet to match trajectory
 	m_audio = audio;
 	m_gConsts = gConsts;
+	m_boundingBox = CBoundingBox(m_position + m_mesh->GetMin(), m_position + m_mesh->GetMax());
+	bulletDamage = MathsHelper::RandomRange(m_gConsts->getMinBulletDamage(), m_gConsts->getMaxBulletDamage());
 
 	int randNum = rand() % 6 + 1;
 	switch (randNum) {
@@ -45,6 +47,8 @@ Bullet::Bullet(Mesh * mesh, Shader * shader, Vector3 position, Texture * texture
 	SetXRotation(xRotation);
 	m_audio = audio;
 	m_gConsts = gConsts;
+	m_boundingBox = CBoundingBox(m_position + m_mesh->GetMin(), m_position + m_mesh->GetMax());
+	bulletDamage = MathsHelper::RandomRange(m_gConsts->getMinBulletDamage(), m_gConsts->getMaxBulletDamage());
 
 	int randNum = rand() % 6 + 1;
 	switch (randNum) {
@@ -75,7 +79,28 @@ float Bullet::getDistanceTravelled(){
 	return distanceTravelled;
 }
 
+int Bullet::getBulletDamage(){
+	return bulletDamage;
+}
+
+bool Bullet::getHasHit(){
+	return hasHit;
+}
+
+CBoundingBox Bullet::getBounds(){
+	return m_boundingBox;
+}
+
+void Bullet::hasCollided(){
+	hasHit = true;
+	m_mesh = NULL;
+}
+
 void Bullet::update(float timestep){
-	m_position = m_position + trajectory *timestep * moveSpeed; //moves bullet along trajectory
+	m_position = m_position + trajectory * timestep * moveSpeed; //moves bullet along trajectory
 	distanceTravelled = Vector3::Distance(startPos, m_position);
+	if (!hasHit) {
+		m_boundingBox.SetMin(m_position + m_mesh->GetMin());
+		m_boundingBox.SetMax(m_position + m_mesh->GetMax());
+	}
 }

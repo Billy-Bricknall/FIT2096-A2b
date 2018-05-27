@@ -8,9 +8,12 @@
 #include "Bullet.h"
 #include "GameConstants.h"
 #include "AudioSystem.h"
-#include "Player.h"
+#include "GameState.h"
 
 using namespace std;
+
+class Bullet;
+class Character;
 
 class Tile: public GameObject{
 private:
@@ -30,6 +33,7 @@ private:
 	int timer;
 	int shotSpeed;
 	Vector3 targetPos;
+	CBoundingBox m_boundingBox;
 
 
 public:
@@ -42,6 +46,7 @@ public:
 	bool getActive();
 	string getType();
 	Tile* getLink();
+	CBoundingBox getBounds();
 	//below only for enemies
 	Character* getEnemy();
 	GameObject* getCharMesh();
@@ -62,6 +67,8 @@ public:
 	void enemyMovement5(float timestep, Vector3 pos);
 
 	void hasCollided();
+	void wallHasCollided();
+	void bulletHasCollided(Bullet* bullet, GameState* gState);
 
 	void update(float timestep, MeshManager* meshManager, Vector3 pos, float rot); //changes texture depending on type
 };

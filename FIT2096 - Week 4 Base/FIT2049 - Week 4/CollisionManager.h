@@ -9,12 +9,20 @@
 
 #define MAX_ALLOWED_COLLISIONS 2048
 
+class Player;
+class Tile;
+class Bullet;
+class GameState;
+
 class CollisionManager
 {
 private:
 	Player* m_player;
 	std::vector<Tile*>* m_tileObjects;
 	std::vector<Bullet*>* m_bullets;
+	std::vector<CPlane*> m_walls;
+	std::vector<Tile*>* m_enemies;
+	GameState* m_gState;
 
 	GameObject* m_currentCollisions[MAX_ALLOWED_COLLISIONS];
 
@@ -31,11 +39,14 @@ private:
 
 	// Collision check helpers
 	void PlayerToEnemy();
-	void BulletToEnemy();
-	void BulletToPlayer();
+	void PlayerToBullet();
+	void PlayerToWall();
+
+	void EnemyToBullet();
+	void EnemyToWall();
 
 public:
-	CollisionManager(Player* player, std::vector<Tile*>* tileObjects, std::vector<Bullet*>* bullets);
+	CollisionManager(Player* player, std::vector<Tile*>* tileObjects, GameState* gState);
 	void CheckCollisions();
 
 };

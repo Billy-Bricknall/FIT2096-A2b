@@ -1,10 +1,21 @@
 #include "CollisionManager.h"
 
-CollisionManager::CollisionManager(Player* player, std::vector<Tile*>* tileObjects, std::vector<Bullet*>* bullets)
+CollisionManager::CollisionManager(Player* player, std::vector<Tile*>* tileObjects, GameState* gState)
 {
+	m_gState = gState;
 	m_player = player;
 	m_tileObjects = tileObjects;
-	m_bullets = bullets;
+	m_bullets = new vector<Bullet*>;
+	m_walls.push_back(new CPlane(Vector3(1, 0, 0), 7));
+	m_walls.push_back(new CPlane(Vector3(1, 0, 0), -7));
+	m_walls.push_back(new CPlane(Vector3(0, 0, 1), 7));
+	m_walls.push_back(new CPlane(Vector3(0, 0, 1), -7));
+
+	m_enemies = new vector<Tile*>;
+	for (int i = 0; i < m_tileObjects->size(); i++) {
+		if ((*m_tileObjects)[i]->getType() == "mon")
+			m_enemies->push_back((*m_tileObjects)[i]);
+	}
 
 	// Clear our arrays to 0 (NULL)
 	memset(m_currentCollisions, 0, sizeof(m_currentCollisions));
@@ -13,12 +24,20 @@ CollisionManager::CollisionManager(Player* player, std::vector<Tile*>* tileObjec
 	m_nextCurrentCollisionSlot = 0;
 }
 
-void CollisionManager::CheckCollisions()
-{
-	// Check kart to item box collisions
+void CollisionManager::CheckCollisions(){
+
+	m_bullets->clear();
+	for (int i = 0; i < m_player->getBullet().size(); i++) {
+		m_bullets->push_back(m_player->getBullet()[i]);
+	}
+
 	PlayerToEnemy();
-	BulletToEnemy();
-	BulletToPlayer();
+	PlayerToBullet();
+	PlayerToWall();
+
+	EnemyToBullet();
+	EnemyToWall();
+	
 
 	// Move all current collisions into previous
 	memcpy(m_previousCollisions, m_currentCollisions, sizeof(m_currentCollisions));
@@ -59,24 +78,23 @@ void CollisionManager::AddCollision(GameObject* first, GameObject* second)
 	m_nextCurrentCollisionSlot += 2;
 }
 
-void CollisionManager::PlayerToEnemy()
-{
-	// We'll check each kart against every item box
-	// Note this is not overly efficient, both in readability and runtime performance
-
+void CollisionManager::PlayerToEnemy(){
 
 	for (unsigned int j = 0; j < m_tileObjects->size(); j++)
 	{
-		// Don't need to store pointer to these objects again but favouring clarity
-		// Can't index into these directly as they're a pointer to a vector. We need to dereference them first
+
 		Player* player = m_player;
 		Tile* tileMesh = (*m_tileObjects)[j];
 
-		CBoundingBox kartBounds = player->GetBounds();
-		CBoundingBox itemBoxBounds = tileMesh->GetBounds();
+		if (tileMesh->getType() == "mon" && tileMesh->getBullet() != NULL) {
+			m_bullets->push_back(tileMesh->getBullet());
+		}
+
+		CBoundingBox playerBounds = player->getBounds();
+		CBoundingBox tileMeshBounds = tileMesh->getBounds();
 
 		// Are they colliding this frame?
-		bool isColliding = CheckCollision(kartBounds, itemBoxBounds);
+		bool isColliding = CheckCollision(playerBounds, tileMeshBounds);
 
 		// Were they colliding last frame?
 		bool wasColliding = ArrayContainsCollision(m_previousCollisions, player, tileMesh);
@@ -88,46 +106,168 @@ void CollisionManager::PlayerToEnemy()
 
 			if (wasColliding)
 			{
-				// We are colliding this frame and we were also colliding last frame - that's a collision stay
-				// Tell the item box a kart has collided with it (we could pass it the actual kart too if we like)
 
-				//itemBox->OnKartCollisionStay();
-				//kart->OnItemBoxCollisionStay(itemBox);
 			}
 			else
 			{
 				// We are colliding this frame and we weren't last frame - that's a collision enter
+				if (tileMesh->getType() == "mon") {
+					player->enemyHasCollided();
+				}
+				else if (tileMesh->getType() == "heal") {
+					player->healthHasCollided();
+				}
+				else if (tileMesh->getType() == "tele") {
+					player->teleportHasCollided(tileMesh);
+				}
 				tileMesh->hasCollided();
-				if (tileMesh->getType() == "heal") {
-					player->getCharacter()->changeHealth(20);
-				}
-				else {
-					player->getCharacter()->changeHealth(-100);
-				}
 			}
 		}
 		else
 		{
 			if (wasColliding)
 			{
-				// We aren't colliding this frame but we were last frame - that's a collision exit
 
-				//itemBox->OnKartCollisionExit();
-				//kart->OnItemBoxCollisionExit(itemBox);
 			}
 		}
 	}
-
 }
 
-void CollisionManager::BulletToEnemy() {
+void CollisionManager::PlayerToBullet(){
 
+
+	for (unsigned int j = 0; j < m_bullets->size(); j++){
+		bool ownBullet = false;
+		Player* player = m_player;
+		Bullet* bullet = (*m_bullets)[j];
+
+		for (int i = 0; i < player->getBullet().size(); i++) {
+			if (player->getBullet()[i] == bullet) {
+				ownBullet = true;
+				i = player->getBullet().size();
+			}
+		}
+
+		if (!ownBullet && !bullet->getHasHit()) {
+			CBoundingBox playerBounds = player->getBounds();
+			CBoundingBox bulletBounds = bullet->getBounds();
+
+			// Are they colliding this frame?
+			bool isColliding = CheckCollision(playerBounds, bulletBounds);
+
+			// Were they colliding last frame?
+			bool wasColliding = ArrayContainsCollision(m_previousCollisions, player, bullet);
+
+			if (isColliding){
+				// Register the collision
+				AddCollision(player, bullet);
+
+				if (wasColliding){
+
+				}
+				else{
+					// We are colliding this frame and we weren't last frame - that's a collision enter
+					player->bulletHasCollided(bullet);
+					bullet->hasCollided();
+				}
+			}
+			else{
+				if (wasColliding){
+
+				}
+			}
+		}
+	}
 }
-void CollisionManager::BulletToPlayer() {
 
+void CollisionManager::PlayerToWall(){
+	for (unsigned int j = 0; j < m_walls.size(); j++)
+	{
+
+		Player* player = m_player;
+		CPlane wall = *m_walls[j];
+
+		CBoundingBox playerBounds = player->getBounds();
+
+		// Are they colliding this frame?
+		bool isColliding = CheckPlane(wall, playerBounds);
+
+		if (isColliding)
+		{
+			player->wallHasCollided();
+		}
+	}
 }
 
-void CollisionManager::KartToKart()
+void CollisionManager::EnemyToBullet(){
+	for (unsigned int i = 0; i < m_enemies->size(); i++) {
+		if ((*m_enemies)[i]->getType() == "mon") {
+			for (unsigned int j = 0; j < m_bullets->size(); j++) {
+
+				bool ownBullet = false;
+				Tile* tileMesh = (*m_enemies)[i];
+				Bullet* bullet = (*m_bullets)[j];
+
+				if (bullet == tileMesh->getBullet())
+					ownBullet = true;
+
+				if (!ownBullet && !bullet->getHasHit()) {
+					CBoundingBox enemyBounds = tileMesh->getBounds();
+					CBoundingBox bulletBounds = bullet->getBounds();
+
+					// Are they colliding this frame?
+					bool isColliding = CheckCollision(enemyBounds, bulletBounds);
+
+					// Were they colliding last frame?
+					bool wasColliding = ArrayContainsCollision(m_previousCollisions, tileMesh, bullet);
+
+					if (isColliding) {
+						// Register the collision
+						AddCollision(tileMesh, bullet);
+
+						if (wasColliding) {
+
+						}
+						else {
+							// We are colliding this frame and we weren't last frame - that's a collision enter
+							tileMesh->bulletHasCollided(bullet, m_gState);
+							bullet->hasCollided();
+						}
+					}
+					else {
+						if (wasColliding) {
+
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void CollisionManager::EnemyToWall(){
+	for (unsigned int i = 0; i < m_enemies->size(); i++) {
+		if ((*m_enemies)[i]->getType() == "mon") {
+			for (unsigned int j = 0; j < m_walls.size(); j++) {
+
+				Tile* enemy = (*m_enemies)[i];
+				CPlane wall = *m_walls[j];
+
+				CBoundingBox enemyBounds = enemy->getBounds();
+
+				// Are they colliding this frame?
+				bool isColliding = CheckPlane(wall, enemyBounds);
+
+				if (isColliding)
+				{
+					enemy->wallHasCollided();
+				}
+			}
+		}
+	}
+}
+
+/*void CollisionManager::KartToKart()
 {
 	// We'll check each kart against every other kart
 	// Note this is not overly efficient, both in readability and runtime performance
@@ -190,5 +330,5 @@ void CollisionManager::KartToKart()
 			}
 		}
 	}
-}
+}*/
 

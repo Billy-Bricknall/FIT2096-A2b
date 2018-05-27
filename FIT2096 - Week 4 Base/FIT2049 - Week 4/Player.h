@@ -8,6 +8,9 @@
 #include "Bullet.h"
 #include <vector>
 
+class Tile;
+class Bullet;
+
 class Player: public GameObject{
 
 public:
@@ -17,9 +20,13 @@ public:
 	GameState* getGamestate(); //returns current gamestate
 	Character* getCharacter() { return player1; }
 	void shoot(TextureManager* textureManager, MeshManager* meshManager, Shader* shader);
-	vector<Bullet*> getBullet();
+	std::vector<Bullet*> getBullet();
 	CBoundingBox getBounds();
-	void hasCollided();
+	void bulletHasCollided(Bullet* bulletHit);
+	void wallHasCollided();
+	void enemyHasCollided();
+	void healthHasCollided();
+	void teleportHasCollided(Tile* teleport);
 
 
 private:
@@ -30,18 +37,16 @@ private:
 	Vector3 targetPos; //where player is moving to
 	float m_moveSpeed;
 	Character* player1; //holds and controls players stats/battles
-	vector<int> movementCue; // holds all valid keystrokes
 	GameState* gState; //holds the current games state.
 	GameConstants* m_gConsts;
-	vector<Bullet*> bullets;
-	bool isMoving;
+	std::vector<Bullet*> bullets;
 	CBoundingBox m_boundingBox;
+	int shotTimer;
 	
 
 	float m_heading;
 	float m_pitch;
 
-	void actionTile(Tile* gBoard[15][15]); //performs action tiles actions
-
 };
+
 #endif

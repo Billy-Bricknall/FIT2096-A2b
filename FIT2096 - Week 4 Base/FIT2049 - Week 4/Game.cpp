@@ -49,6 +49,7 @@ bool Game::Initialise(Direct3D* renderer, InputController* input, AudioSystem* a
 
 	InitGameWorld();
 	RefreshUI();
+	m_collisionManager = new CollisionManager(p1, &m_tiles, p1->getGamestate());
 	m_currentCam = new FirstPersonCamera(p1);
 
 	return true;
@@ -136,6 +137,22 @@ bool Game::LoadAudio()
 		return false;
 	if (!m_audio->Load("Assets/Sounds/Pew6.wav"))
 		return false;
+	if (!m_audio->Load("Assets/Sounds/Health.wav"))
+		return false;
+	if (!m_audio->Load("Assets/Sounds/Teleport.wav"))
+		return false;
+	if (!m_audio->Load("Assets/Sounds/Wilhelm-Scream.mp3"))
+		return false;
+	if (!m_audio->Load("Assets/Sounds/Tunes.wav"))
+		return false;
+	if (!m_audio->Load("Assets/Sounds/Impact1.wav"))
+		return false;
+	if (!m_audio->Load("Assets/Sounds/Impact2.wav"))
+		return false;
+	if (!m_audio->Load("Assets/Sounds/Impact3.wav"))
+		return false;
+	if (!m_audio->Load("Assets/Sounds/Impact4.wav"))
+		return false;
 
 	return true;
 }
@@ -165,6 +182,9 @@ void Game::RefreshUI()
 
 void Game::InitGameWorld()
 {
+	m_backgroundMusic = m_audio->Play("Assets/Sounds/Tunes.wav", false);
+	m_backgroundMusic->SetLoopCount(9999999);
+	m_backgroundMusic->SetVolume(m_gConsts->getMusicVol());
 	generateBoard(); //randomly generates a gameboard
 	p1 = new Player(Vector3(0.0f, 0.0f, 0.0f), m_input, m_gConsts, m_audio);
 }
@@ -181,6 +201,7 @@ void Game::Update(float timestep){
 			}
 		}
 		p1->update(timestep, m_board, m_textureManager, m_meshManager, m_unlitTexturedShader); //update player
+		m_collisionManager->CheckCollisions();
 	}
 	else {
 		MessageBox(NULL, p1->getGamestate()->getMonDef().c_str(), "GameOver", MB_OK); //gameover box with all mons defeated
@@ -319,10 +340,10 @@ void Game::generateBoard() {
 		temp++;
 	} //...to here spawns walls
 
-
 	for (int i = -(width - 1) / 2; i < (width + 1) / 2; i++) {
 		for (int j = -(height - 1) / 2; j < (height + 1) / 2; j++) { //following creates blank slate
 			m_board[i+(width-1)/2][j+(height-1)/2] = new Tile(i, j, m_meshManager->GetMesh("Assets/Meshes/floor_tile.obj"), m_unlitTexturedShader, Vector3(i, 0, j), m_textureManager->GetTexture("Assets/Textures/tile_white.png"), m_gConsts, m_textureManager, m_audio); //string can be blank, mon1-5, tele, heal
+			m_tiles.push_back(m_board[i + (width - 1) / 2][j + (height - 1) / 2]);
 		}
 	}
 
